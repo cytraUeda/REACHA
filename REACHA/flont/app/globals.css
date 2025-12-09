@@ -119,3 +119,26 @@ a {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #0f172a;
+  font-size: 12px;
+  border: 1px solid var(--border);
+}
+
+.pill-success { background: rgba(34,197,94,0.15); border-color: #22c55e; color: #166534; }
+.pill-ghost { background: transparent; }
+
+.alert {
+  padding: 12px;
+  border: 1px solid #fecdd3;
+  background: #fff1f2;
+  color: #991b1b;
+  border-radius: 10px;
+}
+

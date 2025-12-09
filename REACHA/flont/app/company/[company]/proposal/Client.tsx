@@ -24,16 +24,16 @@ export default function ProposalClient({ company }: { company: string }) {
   const [retryCount, setRetryCount] = useState(0);
 
   const fetchProposal = useCallback(async (isRetry = false, signal?: AbortSignal) => {
+    let progressInterval: NodeJS.Timeout | null = null;
+    let postAbortController: AbortController | null = null;
+    let proposalCompleted = false;
+
     try {
       if (!isRetry) {
         setLoading(true);
       }
       setError(null);
       setProgress(null);
-      
-      let progressInterval: NodeJS.Timeout | null = null;
-      let postAbortController: AbortController | null = null;
-      let proposalCompleted = false;
       
       // Start progress polling
       progressInterval = setInterval(async () => {

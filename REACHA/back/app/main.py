@@ -59,6 +59,7 @@ DIFY_TIMEOUT = int(os.getenv("DIFY_TIMEOUT", "10800"))
 DIFY_MAX_RETRIES = int(os.getenv("DIFY_MAX_RETRIES", "3"))
 DIFY_RETRY_BACKOFF_SECONDS = int(os.getenv("DIFY_RETRY_BACKOFF_SECONDS", "10"))
 DIFY_INTER_QUERY_DELAY_SECONDS = int(os.getenv("DIFY_INTER_QUERY_DELAY_SECONDS", "8"))
+HISTORY_LIMIT = int(os.getenv("EDIT_HISTORY_LIMIT", "10"))
 
 # Dify API Endpoints
 DIFY_CHAT_ENDPOINT = "https://api.dify.ai/v1/chat-messages"
@@ -161,20 +162,59 @@ def read_results(company: str) -> Dict[str, Any]:
         base = f"{company}_{i}"
         txt_path = os.path.join(dir_path, f"{base}.txt")
         md_path = os.path.join(dir_path, f"{base}.md")
+        edited_txt_path = os.path.join(dir_path, f"{base}_edited.txt")
+        edited_md_path = os.path.join(dir_path, f"{base}_edited.md")
+        history_path = os.path.join(dir_path, f"{base}_history.json")
         text = ""
         md = ""
+        orig_text = ""
+        orig_md = ""
+        edited = False
+
         if os.path.exists(txt_path):
             try:
                 with open(txt_path, "r", encoding="utf-8") as f:
-                    text = f.read()
+                    orig_text = f.read()
             except Exception:
                 text = ""
         if os.path.exists(md_path):
             try:
                 with open(md_path, "r", encoding="utf-8") as f:
-                    md = f.read()
+                    orig_md = f.read()
             except Exception:
                 md = ""
+
+        # Prefer edited content if exists
+        if os.path.exists(edited_txt_path):
+            try:
+                with open(edited_txt_path, "r", encoding="utf-8") as f:
+                    text = f.read()
+                edited = True
+            except Exception:
+                pass
+        if os.path.exists(edited_md_path):
+            try:
+                with open(edited_md_path, "r", encoding="utf-8") as f:
+                    md = f.read()
+                edited = True
+            except Exception:
+                pass
+
+        # If no edited content, fall back to original
+        if not text and orig_text:
+            text = orig_text
+        if not md and orig_md:
+            md = orig_md
+
+        history_count = 0
+        if os.path.exists(history_path):
+            try:
+                with open(history_path, "r", encoding="utf-8") as f:
+                    hist = json.load(f)
+                    if isinstance(hist, list):
+                        history_count = len(hist)
+            except Exception:
+                history_count = 0
 
         has_any = bool(text) or bool(md)
         if has_any:
@@ -186,6 +226,10 @@ def read_results(company: str) -> Dict[str, Any]:
                 "title": QUERIES[i - 1],
                 "text": text,
                 "markdown": md,
+                "originalText": orig_text,
+                "originalMarkdown": orig_md,
+                "edited": edited,
+                "historyCount": history_count,
             }
         )
 
@@ -232,6 +276,10 @@ class RunResponse(BaseModel):
     jobId: str
     company: str
     status: str
+
+class EditRequest(BaseModel):
+    text: Optional[str] = ""
+    markdown: Optional[str] = ""
 
 
 app = FastAPI()
@@ -383,6 +431,98 @@ def delete_results(company: str) -> Dict[str, Any]:
         raise HTTPException(status_code=500, detail="削除処理中にエラーが発生しました")
 
 
+def _clear_edited(company: str, idx: int) -> None:
+    """Remove edited files and history for a specific index."""
+    paths = _result_paths(company, idx)
+    for key in ("edited_txt", "edited_md", "history"):
+        try:
+            os.remove(paths[key])
+        except FileNotFoundError:
+            continue
+        except Exception:
+            continue
+
+
+@app.post("/api/results/{company}/{idx}/edit")
+def post_edit_result(company: str, idx: int, req: EditRequest) -> Dict[str, Any]:
+    """Save edited content for a specific query result."""
+    if idx < 1 or idx > len(QUERIES):
+        raise HTTPException(status_code=400, detail="idx is out of range")
+
+    try:
+        ensure_outputs_root()
+        os.makedirs(company_dir(company), exist_ok=True)
+    except OSError as e:
+        raise HTTPException(status_code=500, detail=f"ディレクトリの作成に失敗しました: {str(e)}")
+
+    paths = _result_paths(company, idx)
+
+    # Read current (prefer edited then original) to store in history
+    current_text = ""
+    current_md = ""
+    for key in ("edited_txt", "txt"):
+        path = paths[key]
+        if os.path.exists(path):
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    current_text = f.read()
+                break
+            except Exception:
+                pass
+    for key in ("edited_md", "md"):
+        path = paths[key]
+        if os.path.exists(path):
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    current_md = f.read()
+                break
+            except Exception:
+                pass
+
+    new_text = req.text or ""
+    new_md = req.markdown if req.markdown is not None else new_text
+
+    # Append history of previous state
+    try:
+        _append_history(paths["history"], current_text, current_md)
+    except Exception as e:
+        logger.warning(f"Failed to append history for {company} idx {idx}: {e}")
+
+    try:
+        with open(paths["edited_txt"], "w", encoding="utf-8") as f:
+            f.write(new_text)
+        with open(paths["edited_md"], "w", encoding="utf-8") as f:
+            f.write(new_md)
+    except Exception as e:
+        logger.error(f"Failed to save edited content for {company} idx {idx}: {e}")
+        raise HTTPException(status_code=500, detail="編集内容の保存に失敗しました")
+
+    return {"ok": True, "edited": True}
+
+
+@app.post("/api/results/{company}/{idx}/rerun")
+def post_rerun(company: str, idx: int) -> Dict[str, Any]:
+    """Rerun a specific query index, overwriting original files."""
+    if idx < 1 or idx > len(QUERIES):
+        raise HTTPException(status_code=400, detail="idx is out of range")
+
+    try:
+        ensure_outputs_root()
+        os.makedirs(company_dir(company), exist_ok=True)
+    except OSError as e:
+        raise HTTPException(status_code=500, detail=f"ディレクトリの作成に失敗しました: {str(e)}")
+
+    # Clear edited files so new run becomes the source of truth
+    try:
+        _clear_edited(company, idx)
+    except Exception:
+        pass
+
+    # Start background job for this single index
+    job_id = _begin_background_job(company, [idx])
+    return {"jobId": job_id, "company": company, "status": "running"}
+
+
 def _monitor_process(job_id: str, company: str, proc: Any, thread: Optional[threading.Thread] = None) -> None:
     """Monitor a process or thread and clean up state when done."""
     global running_process, running_company, running_job_id, running_thread
@@ -431,99 +571,39 @@ def post_run(req: RunRequest) -> RunResponse:
                     return False
             return True
 
-        # 競合実行の制御と起動
-        with state_lock:
-            if running_process is not None:
-                try:
-                    poll_result = running_process.poll()
-                    alive = poll_result is None
-                except Exception as e:
-                    logger.warning(f"Error checking process status in post_run: {e}")
-                    alive = False
-            else:
-                alive = False
-            
-            if alive:
-                raise HTTPException(status_code=409, detail="別のジョブが実行中です")
+        # 競合実行の制御と起動前の存在チェック
+        try:
+            ensure_outputs_root()
+            os.makedirs(company_dir(company), exist_ok=True)
+        except OSError as e:
+            logger.error(f"Error creating directories for {company}: {e}")
+            raise HTTPException(status_code=500, detail=f"ディレクトリの作成に失敗しました: {str(e)}")
 
+        if _all_exist(company):
+            return RunResponse(jobId="", company=company, status="completed")
+
+        # 実行対象の最終決定：
+        # - 明示的サブセット選択(queries が既定より少ない)なら選択通り実行（既存も上書き許容）
+        # - 全件選択(queries が全件 or 未指定=フォールバック)の場合は、未完了のものだけ実行
+        def _has_any(company_name: str, idx: int) -> bool:
             try:
-                ensure_outputs_root()
-                os.makedirs(company_dir(company), exist_ok=True)
-            except OSError as e:
-                logger.error(f"Error creating directories for {company}: {e}")
-                raise HTTPException(status_code=500, detail=f"ディレクトリの作成に失敗しました: {str(e)}")
+                d = company_dir(company_name)
+                base = f"{company_name}_{idx}"
+                return os.path.exists(os.path.join(d, f"{base}.txt")) or os.path.exists(os.path.join(d, f"{base}.md"))
+            except Exception:
+                return False
 
-            if _all_exist(company):
-                return RunResponse(jobId="", company=company, status="completed")
+        is_full_selection = len(selected_set) >= len(QUERIES)
+        if is_full_selection:
+            run_indices = [i for i in indices if not _has_any(company, i)]
+        else:
+            run_indices = indices
 
-            # 実行対象の最終決定：
-            # - 明示的サブセット選択(queries が既定より少ない)なら選択通り実行（既存も上書き許容）
-            # - 全件選択(queries が全件 or 未指定=フォールバック)の場合は、未完了のものだけ実行
-            def _has_any(company_name: str, idx: int) -> bool:
-                try:
-                    d = company_dir(company_name)
-                    base = f"{company_name}_{idx}"
-                    return os.path.exists(os.path.join(d, f"{base}.txt")) or os.path.exists(os.path.join(d, f"{base}.md"))
-                except Exception:
-                    return False
+        if not run_indices:
+            # すべて既に存在しており実行不要
+            return RunResponse(jobId="", company=company, status="completed")
 
-            is_full_selection = len(selected_set) >= len(QUERIES)
-            if is_full_selection:
-                run_indices = [i for i in indices if not _has_any(company, i)]
-            else:
-                run_indices = indices
-
-            if not run_indices:
-                # すべて既に存在しており実行不要
-                return RunResponse(jobId="", company=company, status="completed")
-
-            job_id = str(uuid.uuid4())
-
-            def _run_job():
-                """Run Dify queries in background thread."""
-                try:
-                    _run_dify_queries(company, run_indices)
-                except Exception as e:
-                    # Log error but don't raise (process monitoring will handle cleanup)
-                    logger.error(f"Error in background job for {company}: {str(e)}", exc_info=True)
-                    try:
-                        _dify_mark_aborted(company)
-                    except Exception:
-                        pass
-
-            running_company = company
-            running_job_id = job_id
-
-            try:
-                t = threading.Thread(target=_run_job, daemon=True)
-                t.start()
-            except Exception as e:
-                logger.error(f"Failed to start background thread for {company}: {e}", exc_info=True)
-                running_company = None
-                running_job_id = None
-                raise HTTPException(status_code=500, detail="バックグラウンドジョブの開始に失敗しました")
-
-            # Create a dummy process object for compatibility with existing monitoring code
-            class DummyProcess:
-                def __init__(self, thread: threading.Thread):
-                    self.thread = thread
-
-                def poll(self):
-                    try:
-                        return 0 if not self.thread.is_alive() else None
-                    except Exception:
-                        return 0
-
-            running_process = DummyProcess(t)
-            running_thread = t
-
-            try:
-                monitor_thread = threading.Thread(target=_monitor_process, args=(job_id, company, running_process, t), daemon=True)
-                monitor_thread.start()
-            except Exception as e:
-                logger.warning(f"Failed to start monitor thread for {company}: {e}")
-                # Don't fail if monitor thread fails to start
-
+        job_id = _begin_background_job(company, run_indices)
         return RunResponse(jobId=job_id, company=company, status="running")
     except HTTPException:
         raise
@@ -580,6 +660,74 @@ def get_run_status(company: Optional[str] = None) -> Dict[str, Any]:
         logger.error(f"Unexpected error in get_run_status: {str(e)}", exc_info=True)
         # Return safe default instead of raising exception
         return {"status": "error", "company": company, "jobId": None, "progress": None}
+
+
+def _begin_background_job(company: str, run_indices: List[int]) -> str:
+    """Start background job for specified indices with locking."""
+    global running_process, running_company, running_job_id, running_thread
+
+    with state_lock:
+        if running_process is not None:
+            try:
+                poll_result = running_process.poll()
+                alive = poll_result is None
+            except Exception as e:
+                logger.warning(f"Error checking process status in _begin_background_job: {e}")
+                alive = False
+        else:
+            alive = False
+
+        if alive:
+            raise HTTPException(status_code=409, detail="別のジョブが実行中です")
+
+        job_id = str(uuid.uuid4())
+
+        def _run_job():
+            """Run Dify queries in background thread."""
+            try:
+                _run_dify_queries(company, run_indices)
+            except Exception as e:
+                # Log error but don't raise (process monitoring will handle cleanup)
+                logger.error(f"Error in background job for {company}: {str(e)}", exc_info=True)
+                try:
+                    _dify_mark_aborted(company)
+                except Exception:
+                    pass
+
+        running_company = company
+        running_job_id = job_id
+
+        try:
+            t = threading.Thread(target=_run_job, daemon=True)
+            t.start()
+        except Exception as e:
+            logger.error(f"Failed to start background thread for {company}: {e}", exc_info=True)
+            running_company = None
+            running_job_id = None
+            raise HTTPException(status_code=500, detail="バックグラウンドジョブの開始に失敗しました")
+
+        # Create a dummy process object for compatibility with existing monitoring code
+        class DummyProcess:
+            def __init__(self, thread: threading.Thread):
+                self.thread = thread
+
+            def poll(self):
+                try:
+                    return 0 if not self.thread.is_alive() else None
+                except Exception:
+                    return 0
+
+        running_process = DummyProcess(t)
+        running_thread = t
+
+        try:
+            monitor_thread = threading.Thread(target=_monitor_process, args=(job_id, company, running_process, t), daemon=True)
+            monitor_thread.start()
+        except Exception as e:
+            logger.warning(f"Failed to start monitor thread for {company}: {e}")
+            # Don't fail if monitor thread fails to start
+
+        return job_id
 
 
 @app.get("/api/proposal/{company}/progress")
@@ -662,16 +810,20 @@ def create_proposal(company: str) -> Dict[str, Any]:
         # Collect all .txt file contents (1-5)
         research_files = []
         for i in range(1, len(QUERIES) + 1):
-            txt_path = os.path.join(dir_path, f"{company}_{i}.txt")
-            if os.path.exists(txt_path):
-                try:
-                    with open(txt_path, "r", encoding="utf-8") as f:
-                        content = f.read().strip()
-                        if content:
-                            research_files.append((i, content))
-                            logger.debug(f"Read file {i}: {txt_path}, size: {len(content)} chars")
-                except Exception as e:
-                    logger.warning(f"Failed to read file {txt_path}: {e}")
+            paths = _result_paths(company, i)
+            # prefer edited
+            candidates = [paths["edited_txt"], paths["txt"]]
+            for path in candidates:
+                if os.path.exists(path):
+                    try:
+                        with open(path, "r", encoding="utf-8") as f:
+                            content = f.read().strip()
+                            if content:
+                                research_files.append((i, content))
+                                logger.debug(f"Read file {i}: {path}, size: {len(content)} chars")
+                                break
+                    except Exception as e:
+                        logger.warning(f"Failed to read file {path}: {e}")
 
         if not research_files:
             raise HTTPException(status_code=400, detail=f"No research data found for company '{company}'")
@@ -987,6 +1139,48 @@ def _read_disk_state(company: str) -> Dict[str, Any]:
         "run_age_ok": run_age is not None and run_age <= MAX_RUN_SECONDS,
         "ts": {"running": ts_running, "heartbeat": ts_hb, "done": ts_done, "aborted": ts_aborted},
     }
+
+# ----------------------
+# Result file helpers
+# ----------------------
+
+def _result_paths(company: str, idx: int) -> Dict[str, str]:
+    base_dir = company_dir(company)
+    base = f"{company}_{idx}"
+    return {
+        "txt": os.path.join(base_dir, f"{base}.txt"),
+        "md": os.path.join(base_dir, f"{base}.md"),
+        "edited_txt": os.path.join(base_dir, f"{base}_edited.txt"),
+        "edited_md": os.path.join(base_dir, f"{base}_edited.md"),
+        "history": os.path.join(base_dir, f"{base}_history.json"),
+    }
+
+def _load_history(path: str) -> List[Dict[str, Any]]:
+    if not os.path.exists(path):
+        return []
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            if isinstance(data, list):
+                return data
+    except Exception:
+        pass
+    return []
+
+def _save_history(path: str, entries: List[Dict[str, Any]]) -> None:
+    try:
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(entries, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
+def _append_history(path: str, text: str, markdown: str) -> None:
+    entries = _load_history(path)
+    ts = int(time.time())
+    entries.insert(0, {"ts": ts, "text": text, "markdown": markdown})
+    # keep last N
+    entries = entries[:HISTORY_LIMIT]
+    _save_history(path, entries)
 
 
 # ----------------------

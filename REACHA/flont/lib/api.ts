@@ -111,12 +111,23 @@ export async function apiDelete<T>(path: string): Promise<T> {
   }
 }
 
+export type ResultsItem = {
+  index: number;
+  title: string;
+  text: string;
+  markdown: string;
+  originalText?: string;
+  originalMarkdown?: string;
+  edited?: boolean;
+  historyCount?: number;
+};
+
 export type ResultsResponse = {
   company: string;
   status: 'running' | 'completed' | 'not_found';
   queries: string[];
   progress: { completed: number; total: number } | null;
-  items: { index: number; title: string; text: string; markdown: string }[];
+  items: ResultsItem[];
   hasProposal?: boolean;
 };
 
