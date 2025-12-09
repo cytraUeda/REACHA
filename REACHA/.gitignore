@@ -1,0 +1,5 @@
+flont/node_modules/
+flont/.next/
+back/venv/
+back/outputs/
+.env

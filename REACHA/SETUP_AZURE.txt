@@ -1,0 +1,41 @@
+
+```
+
+sudo bash -c 'cat >/etc/systemd/system/myapp.service' <<'EOF'
+[Unit]
+Description=FastAPI (Uvicorn) - myapp
+After=network.target
+
+[Service]
+
+# ← Azure VM のログインユーザー名に置き換える
+
+User=azureuser
+
+# ← プロジェクトのディレクトリに置き換える
+
+WorkingDirectory=/home/azureuser/back
+
+# venv の PATH を優先して使う
+
+Environment="PATH=/home/azureuser/back/venv/bin"
+
+# ← エントリポイントに合わせて置き換える（例: app.main:app）
+
+ExecStart=/home/azureuser/back/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
+
+# 落ちたら自動再起動
+
+Restart=always
+RestartSec=5
+
+# 追加の安全設定（任意）
+
+# ProtectSystem=full
+
+# NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
