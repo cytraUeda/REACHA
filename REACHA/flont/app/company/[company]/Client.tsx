@@ -24,6 +24,20 @@ export default function CompanyClient({ company }: { company: string }) {
   }
 
   useEffect(() => {
+    // 最近開いた会社をローカルに記録
+    if (typeof window !== 'undefined') {
+      try {
+        const key = 'reacha_recent_companies';
+        const raw = window.localStorage.getItem(key);
+        const list: string[] = raw ? JSON.parse(raw) : [];
+        const filtered = Array.isArray(list) ? list.filter((c) => c !== company) : [];
+        filtered.unshift(company);
+        window.localStorage.setItem(key, JSON.stringify(filtered.slice(0, 5)));
+      } catch {
+        // ignore
+      }
+    }
+
     load();
     const id = setInterval(load, 10000);
     return () => clearInterval(id);

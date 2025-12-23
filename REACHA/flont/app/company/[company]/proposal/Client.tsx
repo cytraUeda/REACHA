@@ -47,6 +47,8 @@ type ProposalTheme = {
 };
 
 export type ParsedProposalRun = {
+  source_query_index?: number;
+  source_query_label?: string | null;
   提案テーマ一覧?: ProposalTheme[];
   提案全体の戦略サマリー?: {
     [key: string]: unknown;
@@ -187,6 +189,21 @@ export default function ProposalClient({ company }: { company: string }) {
   const [keywordLoading, setKeywordLoading] = useState(false);
   const [keywordError, setKeywordError] = useState<string | null>(null);
   const [selectedTerm, setSelectedTerm] = useState<string | null>(null);
+
+  // 最近開いた会社として記録（リサーチ結果ページと同じロジック）
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const key = 'reacha_recent_companies';
+      const raw = window.localStorage.getItem(key);
+      const list: string[] = raw ? JSON.parse(raw) : [];
+      const filtered = Array.isArray(list) ? list.filter((c) => c !== company) : [];
+      filtered.unshift(company);
+      window.localStorage.setItem(key, JSON.stringify(filtered.slice(0, 5)));
+    } catch {
+      // ignore
+    }
+  }, [company]);
 
   const fetchProposal = useCallback(async (isRetry = false, signal?: AbortSignal) => {
     // フラグで長時間POSTとキャッシュ取得POSTの二重発火を防ぐ
@@ -402,57 +419,6 @@ export default function ProposalClient({ company }: { company: string }) {
         </span>
       </div>
 
-      {/* キーワードネットワーク（JSONモード・singleビュー時のみ） */}
-      {hasKeywordNetwork && (
-        <div style={{ marginBottom: 16 }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              gap: 8,
-              marginBottom: 8,
-              flexWrap: 'wrap',
-            }}
-          >
-            <div className="muted" style={{ fontSize: 12 }}>
-              キーフレーズ抽出: ルールベース共起ネットワーク（除外語適用）
-            </div>
-            <button
-              type="button"
-              className="btn btn-ghost"
-              onClick={handleRefreshKeywords}
-              disabled={keywordLoading}
-            >
-              {keywordLoading ? '再解析中…' : 'キーワードを再解析'}
-            </button>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <ProposalKeywordGraph
-              keywords={keywordData?.keywords ?? []}
-              edges={keywordData?.edges ?? []}
-              selectedTerm={selectedTerm}
-              onSelectTerm={setSelectedTerm}
-            />
-            <ProposalKeywordTable
-              keywords={keywordData?.keywords ?? []}
-              selectedTerm={selectedTerm}
-              onSelectTerm={setSelectedTerm}
-            />
-          </div>
-          {keywordLoading && (
-            <p className="muted" style={{ fontSize: 12, marginTop: 4 }}>
-              キーワードネットワークを解析中です…（数秒かかる場合があります）
-            </p>
-          )}
-          {keywordError && (
-            <div className="alert" style={{ marginTop: 4 }}>
-              {keywordError}
-            </div>
-          )}
-        </div>
-      )}
-
       {loading && (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: '40px 0' }}>
           <div className="spinner" />
@@ -511,7 +477,17 @@ export default function ProposalClient({ company }: { company: string }) {
               <div>
                 <div className="card" style={{ padding: 16 }}>
                   <h2 style={{ marginTop: 0, fontSize: 18, marginBottom: 8 }}>
-                    提案テーマ一覧（第{activeRunIndex + 1}回）
+                    {(() => {
+                      const run = parsed.runs[activeRunIndex];
+                      const label =
+                        (typeof run.source_query_label === 'string' &&
+                          run.source_query_label.trim()) ||
+                        null;
+                      if (label) {
+                        return `提案テーマ一覧（${label}に基づく提案）`;
+                      }
+                      return `提案テーマ一覧（提案 Ver.${activeRunIndex + 1}）`;
+                    })()}
                   </h2>
                   <p className="muted" style={{ fontSize: 13, marginTop: 0 }}>
                     ランキング順に上位テーマを表示します。
@@ -588,6 +564,57 @@ export default function ProposalClient({ company }: { company: string }) {
           )}
 
           {viewMode === 'compare' && <ProposalComparisonTable runs={parsed.runs} />}
+
+          {/* キーワードネットワーク（JSONモード・singleビュー時のみ） */}
+          {hasKeywordNetwork && viewMode === 'single' && (
+            <div style={{ marginTop: 16, marginBottom: 16 }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: 8,
+                  marginBottom: 8,
+                  flexWrap: 'wrap',
+                }}
+              >
+                <div className="muted" style={{ fontSize: 12 }}>
+                  キーフレーズ抽出: ルールベース共起ネットワーク（除外語適用）
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  onClick={handleRefreshKeywords}
+                  disabled={keywordLoading}
+                >
+                  {keywordLoading ? '再解析中…' : 'キーワードを再解析'}
+                </button>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <ProposalKeywordGraph
+                  keywords={keywordData?.keywords ?? []}
+                  edges={keywordData?.edges ?? []}
+                  selectedTerm={selectedTerm}
+                  onSelectTerm={setSelectedTerm}
+                />
+                <ProposalKeywordTable
+                  keywords={keywordData?.keywords ?? []}
+                  selectedTerm={selectedTerm}
+                  onSelectTerm={setSelectedTerm}
+                />
+              </div>
+              {keywordLoading && (
+                <p className="muted" style={{ fontSize: 12, marginTop: 4 }}>
+                  キーワードネットワークを解析中です…（数秒かかる場合があります）
+                </p>
+              )}
+              {keywordError && (
+                <div className="alert" style={{ marginTop: 4 }}>
+                  {keywordError}
+                </div>
+              )}
+            </div>
+          )}
 
           <div style={{ marginTop: 16 }}>
             <ProposalJsonDebugPanel

@@ -5,6 +5,8 @@ import Markdown from './Markdown';
 
 // Client 側の ParsedProposalRun と構造互換な簡易型
 export type ProposalRunForTabs = {
+  source_query_index?: number;
+  source_query_label?: string | null;
   提案テーマ一覧?: {
     順位?: number;
     タイトル?: string | null;
@@ -40,6 +42,18 @@ export default function ProposalRunTabs({
       <div className="tabs" style={{ overflowX: 'auto', paddingBottom: 4 }}>
         {runs.map((run, idx) => {
           const active = mode === 'single' && idx === activeIndex;
+          const sourceLabel =
+            (typeof run.source_query_label === 'string' && run.source_query_label.trim()) ||
+            undefined;
+          const baseLabel = sourceLabel
+            ? `${sourceLabel}に基づく提案`
+            : `提案 Ver.${idx + 1}`;
+          // ボタン自体が縦に伸びすぎないよう、表示用ラベルは適度にトリミング
+          const MAX_BASE_LABEL_LENGTH = 20;
+          const displayBaseLabel =
+            baseLabel.length > MAX_BASE_LABEL_LENGTH
+              ? `${baseLabel.slice(0, MAX_BASE_LABEL_LENGTH)}…`
+              : baseLabel;
           const titleCandidate =
             run.提案テーマ一覧?.find((t) => t.順位 === 1) || run.提案テーマ一覧?.[0];
           const subtitle =
@@ -54,8 +68,19 @@ export default function ProposalRunTabs({
               onMouseLeave={() =>
                 setHoverIndex((prev) => (prev === idx ? null : prev))
               }
+              title={baseLabel}
             >
-              <span>第{idx + 1}回</span>
+              <span
+                style={{
+                  display: 'block',
+                  maxWidth: 200,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {displayBaseLabel}
+              </span>
               {subtitle && (
                 <span
                   className="muted"
@@ -88,7 +113,7 @@ export default function ProposalRunTabs({
         hoverIndex < runs.length && (
           <div className="card" style={{ padding: 12, marginTop: 4 }}>
             <div className="muted" style={{ fontSize: 12, marginBottom: 4 }}>
-              ホバー中: 第{hoverIndex + 1}回の要約
+              ホバー中: {(runs[hoverIndex].source_query_label || `提案 Ver.${hoverIndex + 1}`) as string}
             </div>
             <div style={{ maxHeight: 160, overflow: 'auto' }}>
               <Markdown content={runs[hoverIndex]._raw || ''} />

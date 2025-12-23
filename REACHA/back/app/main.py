@@ -795,7 +795,6 @@ def create_proposal(company: str) -> Dict[str, Any]:
     """Create a proposal by processing each .txt file sequentially and calling Dify workflow API."""
     try:
         logger.info(f"Proposal creation request received for company: {company}")
-
         if not DIFY_API_KEY2:
             logger.error("DIFY_API_KEY2 is not configured")
             raise HTTPException(status_code=500, detail="DIFY_API_KEY2 is not configured")
@@ -809,34 +808,8 @@ def create_proposal(company: str) -> Dict[str, Any]:
         proposal_md_path = os.path.join(dir_path, f"{company}_proposal.md")
         progress_file = os.path.join(dir_path, f"{company}_proposal_progress.json")
 
-        # If a proposal creation is already in progress for this company, prevent starting another one
-        if os.path.exists(progress_file) and not os.path.exists(proposal_txt_path):
-            try:
-                with open(progress_file, "r", encoding="utf-8") as f:
-                    progress_data = json.load(f)
-                status = progress_data.get("status")
-                current = progress_data.get("current")
-                total = progress_data.get("total")
-                # Treat missing status as processing for safety when some progress exists
-                if status is None and isinstance(current, int) and isinstance(total, int) and total > 0:
-                    status = "processing"
-                if status == "processing":
-                    logger.info(
-                        f"Proposal creation already in progress for {company} "
-                        f"(current={current}, total={total}), returning 409"
-                    )
-                    raise HTTPException(
-                        status_code=409,
-                        detail=f"会社 '{company}' の提案作成は既に実行中です。完了を待ってから再度お試しください。",
-                    )
-            except HTTPException:
-                # そのまま上に投げる
-                raise
-            except Exception as e:
-                # 進捗ファイルが壊れている場合はログだけ出して新規実行を許可
-                logger.warning(f"Failed to read proposal progress file {progress_file}: {e}")
-
-        # If proposal already exists, return it
+        # 先に既存提案ファイルの有無を確認し、あれば常にそれを返す
+        # （進捗ファイルが残っていても 409 にはしない）
         if os.path.exists(proposal_txt_path):
             try:
                 with open(proposal_txt_path, "r", encoding="utf-8") as f:
@@ -852,6 +825,52 @@ def create_proposal(company: str) -> Dict[str, Any]:
                     return {"proposal": existing_proposal}
             except Exception as e:
                 logger.warning(f"Failed to read cached proposal: {e}")
+
+        # If a proposal creation is already in progress for this company, prevent starting another one
+        # ただし current >= total（全件処理済みとみなせる）場合は、新規実行を許可する
+        if os.path.exists(progress_file) and not os.path.exists(proposal_txt_path):
+            try:
+                with open(progress_file, "r", encoding="utf-8") as f:
+                    progress_data = json.load(f)
+                status = progress_data.get("status")
+                current = progress_data.get("current")
+                total = progress_data.get("total")
+                # Treat missing status as processing for safety when some progress exists
+                if status is None and isinstance(current, int) and isinstance(total, int) and total > 0:
+                    status = "processing"
+
+                # current/total が数値として妥当かどうかをチェック
+                current_int = current if isinstance(current, int) else None
+                total_int = total if isinstance(total, int) else None
+
+                # まだ全件処理が終わっていない（current < total）のときだけコンフリクト扱い
+                if status == "processing" and current_int is not None and total_int is not None and 0 <= current_int < total_int:
+                    logger.info(
+                        f"Proposal creation already in progress for {company} "
+                        f"(current={current}, total={total}), returning 409"
+                    )
+                    raise HTTPException(
+                        status_code=409,
+                        detail=f"会社 '{company}' の提案作成は既に実行中です。完了を待ってから再度お試しください。",
+                    )
+                elif status == "processing" and current_int is not None and total_int is not None and current_int >= total_int:
+                    # 5/5 など全件処理済みだが最終保存処理中/直後に再実行されたケース。
+                    # 409 にはせず、新規実行を許可（コスト増は許容）。
+                    logger.info(
+                        f"Proposal progress indicates all files processed for {company} "
+                        f"(current={current}, total={total}); allowing new proposal run."
+                    )
+                else:
+                    # status が processing 以外（error など）の場合は、新規実行を許可
+                    logger.info(
+                        f"Proposal progress status is '{status}' for {company}; allowing new proposal run."
+                    )
+            except HTTPException:
+                # そのまま上に投げる
+                raise
+            except Exception as e:
+                # 進捗ファイルが壊れている場合はログだけ出して新規実行を許可
+                logger.warning(f"Failed to read proposal progress file {progress_file}: {e}")
 
         # Collect all .txt file contents (1-5)
         research_files = []
@@ -1081,8 +1100,22 @@ def create_proposal(company: str) -> Dict[str, Any]:
             else:
                 file_proposal = "".join(proposal_parts)
                 if file_proposal.strip():
+                    # Try to interpret the proposal as JSON and enrich with source metadata
+                    try:
+                        obj = json.loads(file_proposal)
+                        if isinstance(obj, dict):
+                            # source_query_index / source_query_label は既にあれば上書きしない
+                            obj.setdefault("source_query_index", query_idx)
+                            if 1 <= query_idx <= len(QUERIES):
+                                obj.setdefault("source_query_label", QUERIES[query_idx - 1])
+                            file_proposal = json.dumps(obj, ensure_ascii=False, indent=2)
+                    except json.JSONDecodeError:
+                        # 非JSON形式の場合はそのまま保存（従来互換）
+                        pass
                     all_proposal_parts.append(file_proposal)
-                    logger.info(f"File {query_idx} processed successfully. Proposal length: {len(file_proposal)} chars")
+                    logger.info(
+                        f"File {query_idx} processed successfully. Proposal length: {len(file_proposal)} chars"
+                    )
                 else:
                     logger.warning(f"File {query_idx} returned empty proposal")
 
