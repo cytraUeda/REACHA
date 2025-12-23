@@ -56,6 +56,7 @@ export default function CompanyForm() {
           placeholder="会社名を入力"
           value={company}
           onChange={(e) => setCompany(e.target.value)}
+          style={{ flex: 1, minWidth: '200px', padding: '10px 12px', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '14px' }}
         />
         <datalist id="companyList">
           {companies.map((c) => (
@@ -88,15 +89,16 @@ export default function CompanyForm() {
               <button type="button" className="btn btn-ghost" onClick={selectAll}>全選択</button>
               <button type="button" className="btn btn-ghost" onClick={clearAll}>全解除</button>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+            <div className="grid-2col" style={{ gap: 8 }}>
               {DEFAULT_QUERIES.map((q) => (
-                <label key={q} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <label key={q} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', padding: '4px 0' }}>
                   <input
                     type="checkbox"
                     checked={selected.includes(q)}
                     onChange={() => toggleQuery(q)}
+                    style={{ cursor: 'pointer', width: '18px', height: '18px', flexShrink: 0 }}
                   />
-                  <span>{q}</span>
+                  <span style={{ fontSize: '14px', userSelect: 'none' }}>{q}</span>
                 </label>
               ))}
             </div>

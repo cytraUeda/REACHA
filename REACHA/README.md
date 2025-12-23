@@ -73,7 +73,7 @@ pip install -r requirements.txt
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
-- ブラウザで `http://localhost:8000/` を開きます。
+- ブラウザで `  ` を開きます。
 - 会社名を入力し、必要なら［オプション］から実行対象のクエリを選択して実行。
 - 結果はタブ（最大5件）でMarkdown表示します。
 - 結果が完了したら「提案を作成」ボタンから提案を生成できます。

@@ -64,15 +64,15 @@ export default function EditableSection({ company, item, isRunning, onSaved, onR
   const editedFlag = item.edited;
 
   return (
-    <div className="card" style={{ marginBottom: 16, padding: 16 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontWeight: 600 }}>{item.title}</span>
+    <div className="card" style={{ marginBottom: 16, padding: 20 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <span style={{ fontWeight: 600, fontSize: '16px' }}>{item.title}</span>
           {editedFlag && <span className="pill pill-success">編集あり</span>}
           {!editedFlag && item.text && <span className="pill">未編集</span>}
           {item.historyCount ? <span className="pill pill-ghost">履歴 {item.historyCount}</span> : null}
         </div>
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           <button className="btn" onClick={handleResetToOriginal} disabled={saving || rerunning || isRunning}>
             元に戻す
           </button>
@@ -87,20 +87,20 @@ export default function EditableSection({ company, item, isRunning, onSaved, onR
 
       <div style={{ height: 8 }} />
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+      <div className="grid-2col">
         <div>
           <div style={{ fontSize: 12, color: '#555', marginBottom: 4 }}>編集</div>
           <textarea
             value={value}
             onChange={(e) => setValue(e.target.value)}
             rows={12}
-            style={{ width: '100%', resize: 'vertical' }}
+            style={{ width: '100%', resize: 'vertical', minHeight: '200px', boxSizing: 'border-box', padding: '8px', border: '1px solid var(--border)', borderRadius: '8px', fontFamily: 'inherit', fontSize: '14px' }}
             disabled={saving || rerunning}
           />
         </div>
         <div>
           <div style={{ fontSize: 12, color: '#555', marginBottom: 4 }}>プレビュー</div>
-          <div className="card" style={{ padding: 8, maxHeight: 280, overflow: 'auto' }}>
+          <div className="card" style={{ padding: 12, maxHeight: '400px', overflow: 'auto', minHeight: '200px' }}>
             <Markdown content={preview} />
           </div>
         </div>

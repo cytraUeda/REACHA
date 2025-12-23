@@ -1,0 +1,77 @@
+..............................
+----
+
+## リサーチ結果
+
+# サマリー  
+国内外でアルコール飲料の消費構造が変化しています。若年層の飲酒離れでビール需要は減少傾向にある一方、健康志向の高まりが低・ノンアルコール飲料やRTD（RTDカクテルなど）の伸長を促しています ([time.com](https://time.com/7086065/suntory-ceo-takeshi-niinami-interview/#:~:text=feedback%20through%20regular%20market%20visits,immigration%20to%20counter%20labor%20shortages)) ([www.reuters.com](https://www.reuters.com/breakingviews/big-beers-low-alcohol-plan-b-has-too-much-froth-2024-07-09/#:~:text=Big%20breweries%20such%20as%20Carlsberg%2C,billion%20in%20sales%20from%20the))。また、訪日外国人観光客の急増で外食・観光需要が回復しており ([www.reuters.com](https://www.reuters.com/world/asia-pacific/japan-crosses-10-million-visitors-through-march-fastest-ever-pace-2025-04-16/#:~:text=Japan%20reached%20over%2010%20million,after%20automobiles%20and%20ahead%20of))、この機会を捉えた売上拡大が期待されます。同時に、原材料費高騰や人手不足によるコスト増加 ([www.reuters.com](https://www.reuters.com/sustainability/sustainable-finance-reporting/japan-firms-face-serious-labour-crunch-aging-population-survey-shows-2025-01-15/#:~:text=A%20Reuters%20survey%20revealed%20that,Furthermore)) ([www.reuters.com](https://www.reuters.com/markets/asia/japan-wholesale-inflation-slows-may-2025-06-11/#:~:text=In%20May%202025%2C%20Japan%27s%20annual,The%20BOJ%20faces%20added))、環境規制強化（欧州での使い捨てプラスチック規制など） ([www.reuters.com](https://www.reuters.com/business/environment/eu-parliament-backs-clampdown-single-use-plastic-packaging-2024-04-24/#:~:text=The%20European%20Parliament%20approved%20a,allow%20customers%20to%20use%20their))も喫緊の課題です。これらの動向は、営業活動では**商品開発・マーケティング部門**（需要変化対応）や**製造・物流部門**（コスト効率化）、**ESG推進部門**（環境対策）へのアプローチを強化する必要性を示しています。  
+
+## 業界トレンド（需要・規制・マクロ）  
+* **消費構造の変化（若年層と健康志向）** / 若年層の飲酒離れが顕著で、全体のビール需要は横ばいから減少傾向です ([time.com](https://time.com/7086065/suntory-ceo-takeshi-niinami-interview/#:~:text=feedback%20through%20regular%20market%20visits,immigration%20to%20counter%20labor%20shortages))。一方で健康志向の消費者を中心に、低アルコール・ノンアルコールビールやRTD（缶カクテルなど）の需要が増加しています。主要ドライバー: 消費者嗜好の変化（健康志向・若年層の飲酒率低下）、生活様式の変化。影響: 伝統的なビール需要↓、商品ポートフォリオやマーケティング戦略の見直し必須。  
+  - **営業ターゲット:** 商品開発部、マーケティング部、営業企画部（部門長・担当者）／**質問例:**「若年層向け新商品企画の予定は？」「低・ノンアル市場への対応状況は？」「既存商品を健康志向ニーズに合わせた改良は？」「打ち手が見つかっていない痛点は？」／**今動く理由:** 若年層を早期に取り込まないと競合にシェアを奪われる可能性が高いため。  
+  - **代表ソース:** 2024年10月13日『Time』 ([time.com](https://time.com/7086065/suntory-ceo-takeshi-niinami-interview/#:~:text=feedback%20through%20regular%20market%20visits,immigration%20to%20counter%20labor%20shortages))（アルコール消費低下とRTD市場拡大）  
+
+* **低・ノンアルコール飲料とRTD市場の拡大** / 世界的大手ビールメーカーは低・ノンアル市場やカクテルタイプRTD（スピリッツベース飲料）への参入を加速しています ([www.reuters.com](https://www.reuters.com/breakingviews/big-beers-low-alcohol-plan-b-has-too-much-froth-2024-07-09/#:~:text=Big%20breweries%20such%20as%20Carlsberg%2C,billion%20in%20sales%20from%20the)) ([www.reuters.com](https://www.reuters.com/business/retail-consumer/japans-suntory-aims-greater-us-canned-cocktail-market-share-bets-spirits-2024-08-26/#:~:text=Japan%27s%20Suntory%20Holdings%20aims%20to,Japan%2C%20but%20trails%20behind%20Mark))。日本国内でも税制優遇や健康志向でこれら商品の人気が高まっており、付加価値の高い新カテゴリとして利益拡大のチャンスです。主要ドライバー: 消費者の健康志向増大、アルコール規制・税制（低アルは税負担軽減）、競合他社の新商品投入。影響: 商品開発・生産投資の再配分↑、既存市場の付加価値向上。  
+  - **営業ターゲット:** 商品企画部、研究開発部、マーケティング部／**質問例:**「低・ノンアル製品やRTD商品の売上比率は？」「新商品開発の課題は？」「ライバル商品との競争で苦労している点は？」「技術・設備面で不足している部分は？」／**今動く理由:** 成長市場への早期参入でプレゼンスを確立し、法改正による税制メリットを享受するため。  
+  - **代表ソース:** 2024年7月9日Reuters Breakingviews ([www.reuters.com](https://www.reuters.com/breakingviews/big-beers-low-alcohol-plan-b-has-too-much-froth-2024-07-09/#:~:text=Big%20breweries%20such%20as%20Carlsberg%2C,billion%20in%20sales%20from%20the))（グローバルな低ノンアル市場拡大）、2024年8月26日Reuters ([www.reuters.com](https://www.reuters.com/business/retail-consumer/japans-suntory-aims-greater-us-canned-cocktail-market-share-bets-spirits-2024-08-26/#:~:text=Japan%27s%20Suntory%20Holdings%20aims%20to,Japan%2C%20but%20trails%20behind%20Mark))（スピリッツ系RTDの成長見込み）  
+
+* **インバウンド回復による外食需要増** / 円安・渡航規制緩和で2024年以降、日本の訪日外国人数は過去最高ペースで増加中です ([www.reuters.com](https://www.reuters.com/world/asia-pacific/japan-crosses-10-million-visitors-through-march-fastest-ever-pace-2025-04-16/#:~:text=Japan%20reached%20over%2010%20million,after%20automobiles%20and%20ahead%20of))。ホテルや飲食店でのビール消費も回復基調にあり、旅行客向け販路拡大が見込まれます。主要ドライバー: 観光政策、為替動向（円安促進）、世界的イベント回復。影響: 外食・旅行代理店などB2B販売チャネルの需要↑、在庫調整の必要度↑。  
+  - **営業ターゲット:** 国内営業企画部、販売促進部、流通部（部門長・担当営業）／**質問例:**「インバウンド向けの販売戦略はありますか？」「観光資源の多い地域への卸・プロモーション強化は？」「外食チャネルの在庫状況に課題は？」「限定商品やパッケージの企画検討は？」／**今動く理由:** 観光客需要がピークに向かっており、早期提案で先行シェアを獲得できるチャンスがあるため。  
+  - **代表ソース:** 2025年4月16日Reuters ([www.reuters.com](https://www.reuters.com/world/asia-pacific/japan-crosses-10-million-visitors-through-march-fastest-ever-pace-2025-04-16/#:~:text=Japan%20reached%20over%2010%20million,after%20automobiles%20and%20ahead%20of))（訪日外客の急増と経済効果）  
+
+* **コスト高・労働不足による価格圧力** / 原材料や包装資材の輸入コスト高と人手不足が企業経営を圧迫しています ([www.reuters.com](https://www.reuters.com/markets/asia/japan-wholesale-inflation-slows-may-2025-06-11/#:~:text=In%20May%202025%2C%20Japan%27s%20annual,The%20BOJ%20faces%20added)) ([www.reuters.com](https://www.reuters.com/sustainability/sustainable-finance-reporting/japan-firms-face-serious-labour-crunch-aging-population-survey-shows-2025-01-15/#:~:text=A%20Reuters%20survey%20revealed%20that,Furthermore))。特に賃金上昇や輸入価格の高騰により、2025年以降価格転嫁が必要になる見込みです。主要ドライバー: 原油価格・為替変動、労働市場の逼迫（高齢化・人手不足）、政府の政策（最低賃金引上げなど）。影響: 製造・物流コスト↑、人件費↑、利益率低下→製品価格↑や生産効率化投資が急務。  
+  - **営業ターゲット:** 財務・経営企画部、生産技術部、調達部／**質問例:**「コスト増圧に対する対策は？」「自動化・省人化投資の優先度は？」「価格見直しへの社内議論は進んでいますか？」「現在の仕入先依存度に課題は？」／**今動く理由:** コスト圧力がピーク前に足並みを揃え対策しなければ、利益確保が難しくなるタイミングのため。  
+  - **代表ソース:** 2025年1月15日Reuters ([www.reuters.com](https://www.reuters.com/sustainability/sustainable-finance-reporting/japan-firms-face-serious-labour-crunch-aging-population-survey-shows-2025-01-15/#:~:text=A%20Reuters%20survey%20revealed%20that,Furthermore))（日本企業の人手不足調査）、2025年6月11日Reuters ([www.reuters.com](https://www.reuters.com/markets/asia/japan-wholesale-inflation-slows-may-2025-06-11/#:~:text=In%20May%202025%2C%20Japan%27s%20annual,The%20BOJ%20faces%20added))（食品・飲料コストインフレ）  
+
+* **環境規制とサステナビリティ対応強化** / 欧米中心に使い捨てプラスチック規制が強化され、飲料業界にも容器・包装の脱プラ要求が高まっています ([www.reuters.com](https://www.reuters.com/business/environment/eu-parliament-backs-clampdown-single-use-plastic-packaging-2024-04-24/#:~:text=The%20European%20Parliament%20approved%20a,allow%20customers%20to%20use%20their))。アサヒ自身も2050年環境ビジョンを刷新し、再利用・リサイクル取り組みを加速中です。主要ドライバー: 海外（EU等）の規制動向、消費者の環境意識、ESG投資の拡大。影響: 梱包材コスト・開発負担↑、長期的に再利用容器や省資源技術への投資余力↑。  
+  - **営業ターゲット:** 環境・CSR推進部、商品開発部、調達部／**質問例:**「新容器・リサイクル計画の検討状況は？」「脱プラ・リサイクル率向上の目標と進捗は？」「サプライヤーへの環境要件強化は？」／**今動く理由:** 欧州法規制は2027–30年施行予定のため、事前対応が急務であり、CSR対応で競合優位にもつながるため。  
+  - **代表ソース:** 2024年4月24日Reuters ([www.reuters.com](https://www.reuters.com/business/environment/eu-parliament-backs-clampdown-single-use-plastic-packaging-2024-04-24/#:~:text=The%20European%20Parliament%20approved%20a,allow%20customers%20to%20use%20their))（EUのプラスチック規制案）  
+
+* **事業多角化・健康ビジネス参入** / 大手飲料会社は健康・ウェルネス市場への参入を加速しています ([www.reuters.com](https://www.reuters.com/business/healthcare-pharmaceuticals/japans-kirin-clinched-fancl-takeover-propel-health-pivot-president-says-2024-08-29/#:~:text=Japan%27s%20Kirin%20Holdings%20has%20secured,revenue%20to%20%C2%A5500%20billion%2C%20likely))。キリンはサプリ大手買収で医薬・健康食品事業を強化中で、アサヒも体内環境技術への投資実績があります。主要ドライバー: 国内酒類市場の成熟、ヘルスケア志向、M&A・投資機会。影響: 新規事業部門の創設・予算増加、既存ビール事業とのシナジー構築検討が必要。  
+  - **営業ターゲット:** 経営企画部、株主対応部、研究開発部／**質問例:**「健康志向商品や事業の検討は？」「M&A戦略に健康分野は含まれますか？」「R&Dでヘルスケア技術を持つパートナーを探していますか？」／**今動く理由:** 競合他社も先行投資しており、新市場創出で将来成長を確保する好機のため。  
+  - **代表ソース:** 2024年8月29日Reuters ([www.reuters.com](https://www.reuters.com/business/healthcare-pharmaceuticals/japans-kirin-clinched-fancl-takeover-propel-health-pivot-president-says-2024-08-29/#:~:text=Japan%27s%20Kirin%20Holdings%20has%20secured,revenue%20to%20%C2%A5500%20billion%2C%20likely))（キリンによる健康事業強化）  
+
+## 技術トレンド（代替技術・プラットフォーム動向）  
+* **サステナブル包装技術（ラベルフリー・新素材）** / 従来のプラスチック・ラベルに代わる環境配慮型包装技術です。採用段階はPoC～試験導入レベルで、新素材や貼付作業削減技術が開発・検証されています。参入障壁は開発コストと法規制対応の整備状況です。  
+  - **統合ポイント:** 現行包装・印刷ラインやERPシステムとの連携（生産・在庫管理）。**移行インパクト:** 新容器導入コスト増加、従来設備の改修費用、導入初期の歩留り低下リスク。  
+  - **競合/プラットフォーマー:** 大手容器メーカーやベンチャーが技術開発競争。既存ラベル業者や容器供給側との関係性が鍵。**ロックイン要因:** 一度専用設備を導入すると他技術への乗換コストが大きい。**価格モデル:** 従来より高コストだが、長期的コスト削減や法令遵守によるペナルティ回避で回収期待。  
+  - **代表ソース:** －（アサヒ環境ビジョン2050 ([www.asahigroup-holdings.com](https://www.asahigroup-holdings.com/en/sustainability/environment/#:~:text=%2A%20Realize%20100,materials%2C%20which%20are%20not%20plastic))）  
+
+* **サイバーセキュリティ/制御システム防御** / IPA（情報処理推進機構）やサプライヤから提供されるOT/ITセキュリティ技術です。ビール工場自動化との関係では補完的であり、採用は試行導入段階。コストと専門人材不足が参入障壁です。  
+  - **統合ポイント:** 生産・物流システム（SCADA、MES）やネットワークインフラとの連携。**移行インパクト:** サイバー攻撃による生産停止リスク軽減、導入コスト増加、既存システム改修必要性。  
+  - **競合/プラットフォーマー:** シスコ、パロアルト等の大手ITベンダーや専業セキュリティ企業、国際的なセキュリティスタンダード。**ロックイン要因:** 専門機器やプロトコルの依存性。**価格モデル:** SaaSやアプライアンス型サブスクリプションが主流、機器導入モデルも存在。  
+  - **代表ソース:** 2025年10月6日Reuters ([www.reuters.com](https://www.reuters.com/world/asia-pacific/japans-asahi-restarts-beer-production-following-cyberattack-2025-10-06/#:~:text=Asahi%20Group%20resumed%20beer%20production,a%20string%20of%20cyber%20and))（アサヒのサイバー攻撃被害事例）  
+
+* **再生可能エネルギー・脱炭素技術** / 発電所・工場での太陽光等の再生エネルギー活用やカーボンキャプチャー技術です。アサヒは2040年ネットゼロを目標とし ([www.asahigroup-holdings.com](https://www.asahigroup-holdings.com/en/sustainability/environment/#:~:text=With%20%E2%80%9CAsahi%20Carbon%20Zero%E2%80%9D%2C%20the,stage%20introduction%20of%20renewable%20energy))、導入は一部PoC～拡大導入フェーズ。高コストや設備変更が障壁です。  
+  - **統合ポイント:** 発電/熱源設備および工場運用システムへの組込（電力管理、排出量計測）。**移行インパクト:** 初期投資大幅増（太陽光パネル・発電設備）、運用オペレーション変更、電力コスト抑制長期効果。  
+  - **競合/プラットフォーマー:** 大手電機・エネルギー企業（パナソニック、東芝など）や欧米再エネベンチャー、政府補助。**ロックイン要因:** 発電方式の選定（太陽光 vs バイオマス等）による依存性、電力網接続制約。**価格モデル:** 設備投資型が多いが、電力購入契約(PPA)や再エネ証書取引も普及。  
+  - **代表ソース:** －（アサヒカーボンゼロ2050目標 ([www.asahigroup-holdings.com](https://www.asahigroup-holdings.com/en/sustainability/environment/#:~:text=With%20%E2%80%9CAsahi%20Carbon%20Zero%E2%80%9D%2C%20the,stage%20introduction%20of%20renewable%20energy))）  
+
+## 営業で使えるアプローチ案  
+* **件名案:** 「生産停止リスク防止のご提案」 / **アイスブレイク:** 「先日、サイバー攻撃により当社は主要工場の生産ラインが一時停止し、出荷に大幅遅延が発生しています ([www.reuters.com](https://www.reuters.com/world/asia-pacific/japans-asahi-restarts-beer-production-following-cyberattack-2025-10-06/#:~:text=Asahi%20Group%20resumed%20beer%20production,a%20string%20of%20cyber%20and))。」このニュース状況を踏まえ、**生産設備のサイバー防護策**強化についてご提案できればと考えます。 / **ディスカバリー質問:** 「現在のセキュリティ対策で不安な点は？」「サイバー攻撃に備えた訓練・評価は実施済み？」「万一攻撃時の代替プロセス整備は？」 / **価値仮説:** 万一の攻撃による**生産停止リスク**やブランド毀損を低減し、業務継続計画の信頼度を高めます。 / **CTA:** 「セキュリティ診断サービス」をご紹介し、リスク評価を無料提供いたします。  
+
+* **件名案:** 「インバウンド需要対応のデジタル戦略」 / **アイスブレイク:** 「今年は過去最速で訪日客数が1000万人を突破したとの報道が出ています ([www.reuters.com](https://www.reuters.com/world/asia-pacific/japan-crosses-10-million-visitors-through-march-fastest-ever-pace-2025-04-16/#:~:text=Japan%20reached%20over%2010%20million,after%20automobiles%20and%20ahead%20of))。」この**急増する観光客**需要を捉えるため、インバウンド向けのプロモーションやデジタル販路強化をご提案します。 / **ディスカバリー質問:** 「多言語サイトやSNSでのプロモーションは充実していますか？」「旅行会社や宿泊業界向けの共同企画は検討済み？」「地域限定品・期間限定品で外国人目線の反応を試していますか？」 / **価値仮説:** 観光客を逃さず新規ファンを獲得でき、売上増加およびブランド認知拡大が見込めます。 / **CTA:** 弊社の**デジタルマーケ支援サービス**で、訪日客ターゲットの販促企画・実行をサポートします。  
+
+* **件名案:** 「省人化・自動化によるコスト削減」 / **アイスブレイク:** 「日本企業の約2/3が深刻な人手不足に直面しており、コスト高も重なっていると報じられています ([www.reuters.com](https://www.reuters.com/sustainability/sustainable-finance-reporting/japan-firms-face-serious-labour-crunch-aging-population-survey-shows-2025-01-15/#:~:text=A%20Reuters%20survey%20revealed%20that,Furthermore))。」**労働力不足**が続く中、省人化・自動化ソリューションで生産性向上をご提案します。 / **ディスカバリー質問:** 「生産ラインの自動化率は何％ですか？」「新規設備投資に対するROI目標は？」「工程のボトルネックはどこでしょうか？」 / **価値仮説:** ロボット・IoT導入で**運用コスト削減**と安定供給を両立し、人手不足による操業リスクを低減します。 / **CTA:** 工場視察・ヒアリングのうえ、改善案と試算をまとめた**自動化診断レポート**をご提供します。  
+
+* **件名案:** 「脱プラ・サステナ包装技術のご紹介」 / **アイスブレイク:** 「EUでは2030年までに飲料容器の90％をリサイクル対象とし、10％は再利用容器にする法案が承認されました ([www.reuters.com](https://www.reuters.com/business/environment/eu-parliament-backs-clampdown-single-use-plastic-packaging-2024-04-24/#:~:text=The%20European%20Parliament%20approved%20a,allow%20customers%20to%20use%20their))。」国内でも同様の動きが加速しつつあり、**環境配慮型包装技術**の導入が急務です。 / **ディスカバリー質問:** 「現行容器のリサイクル対応率は？」「サステナブルパッケージへの切替え計画がありますか？」「試験的にラベルレスや軽量容器をお試しですか？」 / **価値仮説:** 早期対応で**規制リスク**を回避し、企業イメージ向上にもつながります。また、長期的には材料コスト削減や資源効率向上が見込めます。 / **CTA:** 環境コンサルティング会社との連携で、御社専用の**リサイクル対応プラン**をご提案いたします。  
+
+## リスク・不確実性  
+- **情報ギャップ:** グローバルなニュース（欧米・中国動向など）と日本市場には差異がある可能性が大きく、国内消費の実態は不明確な部分があります。  
+- **市場局所性:** 低・ノンアル市場やRTD市場の国内潜在規模・成長率について情報が不足しており、予測に不確実性があります。  
+- **規制の地域差:** 欧州の包装規制は日本にそのまま適用されるとは限らず、国内法化のタイミングも流動的です。  
+- **技術採用の不確定性:** IoTやAIなど先端技術は導入コスト・人材依存度が高く、短期的なROIが不透明です。  
+- **代替見解:** 一部報道では酒類業界全体の需要回復を予測するものもあり、今後の景気変動や消費者動向で大きく変わる可能性があります。  
+
+## 出典一覧  
+- Reuters, 2024年7月9日（Breakingviews） ([www.reuters.com](https://www.reuters.com/breakingviews/big-beers-low-alcohol-plan-b-has-too-much-froth-2024-07-09/#:~:text=Big%20breweries%20such%20as%20Carlsberg%2C,billion%20in%20sales%20from%20the))　外資系大手の低・ノンアル市場進出  
+- Reuters, 2024年8月26日 ([www.reuters.com](https://www.reuters.com/business/retail-consumer/japans-suntory-aims-greater-us-canned-cocktail-market-share-bets-spirits-2024-08-26/#:~:text=Japan%27s%20Suntory%20Holdings%20aims%20to,Japan%2C%20but%20trails%20behind%20Mark))　日本・サントリーのRTD市場展望  
+- Reuters, 2024年8月29日 ([www.reuters.com](https://www.reuters.com/business/healthcare-pharmaceuticals/japans-kirin-clinched-fancl-takeover-propel-health-pivot-president-says-2024-08-29/#:~:text=Japan%27s%20Kirin%20Holdings%20has%20secured,revenue%20to%20%C2%A5500%20billion%2C%20likely))　キリンの健康事業強化（Fancl買収）  
+- Reuters, 2024年10月13日（Time誌） ([time.com](https://time.com/7086065/suntory-ceo-takeshi-niinami-interview/#:~:text=feedback%20through%20regular%20market%20visits,immigration%20to%20counter%20labor%20shortages))　消費減少・RTD拡大（サントリーCEOインタビュー）  
+- Reuters, 2025年1月15日 ([www.reuters.com](https://www.reuters.com/sustainability/sustainable-finance-reporting/japan-firms-face-serious-labour-crunch-aging-population-survey-shows-2025-01-15/#:~:text=A%20Reuters%20survey%20revealed%20that,Furthermore))　日本企業の労働不足調査  
+- Reuters, 2025年4月16日 ([www.reuters.com](https://www.reuters.com/world/asia-pacific/japan-crosses-10-million-visitors-through-march-fastest-ever-pace-2025-04-16/#:~:text=Japan%20reached%20over%2010%20million,after%20automobiles%20and%20ahead%20of))　日本の訪日外客数（JNTO統計）  
+- Reuters, 2025年6月11日 ([www.reuters.com](https://www.reuters.com/markets/asia/japan-wholesale-inflation-slows-may-2025-06-11/#:~:text=In%20May%202025%2C%20Japan%27s%20annual,The%20BOJ%20faces%20added))　日本7-9月卸売物価（食品・飲料セクターインフレ）  
+- Reuters, 2025年10月6日 ([www.reuters.com](https://www.reuters.com/world/asia-pacific/japans-asahi-restarts-beer-production-following-cyberattack-2025-10-06/#:~:text=Asahi%20Group%20resumed%20beer%20production,a%20string%20of%20cyber%20and))　アサヒのサイバー攻撃被害報告  
+- Reuters, 2024年4月24日 ([www.reuters.com](https://www.reuters.com/business/environment/eu-parliament-backs-clampdown-single-use-plastic-packaging-2024-04-24/#:~:text=The%20European%20Parliament%20approved%20a,allow%20customers%20to%20use%20their))　EUプラスチック規制案（包装リサイクル強化）  
+- Asahi Group Holdings公式サイト（サステナビリティ環境レポート）★ ([www.asahigroup-holdings.com](https://www.asahigroup-holdings.com/en/sustainability/environment/#:~:text=%2A%20Realize%20100,materials%2C%20which%20are%20not%20plastic)) ([www.asahigroup-holdings.com](https://www.asahigroup-holdings.com/en/sustainability/environment/#:~:text=With%20%E2%80%9CAsahi%20Carbon%20Zero%E2%80%9D%2C%20the,stage%20introduction%20of%20renewable%20energy))　サステナブル包装・カーボンゼロ目標  
+

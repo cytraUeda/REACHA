@@ -59,47 +59,52 @@ export default function CompaniesTable({ companies }: { companies: string[] }) {
     return <p className="muted">過去の結果はまだありません。</p>;
   }
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>会社名</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list.map((c) => {
-          const hasProposal = companyProposals.get(c) || false;
-          return (
-            <tr key={c}>
-              <td>{c}</td>
-              <td style={{ display: 'flex', gap: 8 }}>
-                <Link className="btn btn-ghost" href={`/company/${encodeURIComponent(c)}`}>
-                  会社情報を開く
-                </Link>
-                {hasProposal ? (
-                  <Link 
-                    className="btn btn-ghost" 
-                    href={`/company/${encodeURIComponent(c)}/proposal`}
-                  >
-                    提案結果を開く
-                  </Link>
-                ) : (
-                  <button 
-                    className="btn btn-ghost" 
-                    disabled
-                    style={{ opacity: 0.5, cursor: 'not-allowed' }}
-                    title="提案がまだ作成されていません"
-                  >
-                    提案結果を開く
-                  </button>
-                )}
-                <button className="btn btn-danger" onClick={() => onDelete(c)}>削除</button>
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <div className="table-wrapper">
+      <table className="table">
+        <thead>
+          <tr>
+            <th style={{ minWidth: '150px' }}>会社名</th>
+            <th style={{ minWidth: '300px' }}>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {list.map((c) => {
+            const hasProposal = companyProposals.get(c) || false;
+            return (
+              <tr key={c}>
+                <td style={{ wordBreak: 'break-word' }}>{c}</td>
+                <td>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+                    <Link className="btn btn-ghost" href={`/company/${encodeURIComponent(c)}`} style={{ whiteSpace: 'nowrap', fontSize: '13px', padding: '8px 12px' }}>
+                      会社情報を開く
+                    </Link>
+                    {hasProposal ? (
+                      <Link 
+                        className="btn btn-ghost" 
+                        href={`/company/${encodeURIComponent(c)}/proposal`}
+                        style={{ whiteSpace: 'nowrap', fontSize: '13px', padding: '8px 12px' }}
+                      >
+                        提案結果を開く
+                      </Link>
+                    ) : (
+                      <button 
+                        className="btn btn-ghost" 
+                        disabled
+                        style={{ opacity: 0.5, cursor: 'not-allowed', whiteSpace: 'nowrap', fontSize: '13px', padding: '8px 12px' }}
+                        title="提案がまだ作成されていません"
+                      >
+                        提案結果を開く
+                      </button>
+                    )}
+                    <button className="btn btn-danger" onClick={() => onDelete(c)} style={{ whiteSpace: 'nowrap', fontSize: '13px', padding: '8px 12px' }}>削除</button>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
 }
 

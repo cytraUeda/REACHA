@@ -1,9 +1,12 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiGet, apiPost } from '../../../../lib/api';
 import Markdown from '../../../../components/Markdown';
+import ProposalRunTabs, { ProposalViewMode } from '../../../../components/ProposalRunTabs';
+import ProposalComparisonTable from '../../../../components/ProposalComparisonTable';
+import ProposalJsonDebugPanel from '../../../../components/ProposalJsonDebugPanel';
 
 type ProposalResponse = {
   proposal: string;
@@ -15,6 +18,147 @@ type ProgressResponse = {
   status: string;
 };
 
+// ------------------------
+// JSON パース用の型・ヘルパー
+// ------------------------
+
+type ProposalTheme = {
+  順位?: number;
+  タイトル?: string | null;
+  課題仮説?: string | null;
+  解決アプローチ?: string | null;
+  期待効果?: {
+    定量効果?: string | null;
+    定性効果?: string | null;
+    [key: string]: unknown;
+  } | null;
+  提案メッセージ案?: {
+    経営層向け?: string | null;
+    現場担当者向け?: string | null;
+    [key: string]: unknown;
+  } | null;
+  参考実績_裏付け?: string | null;
+  [key: string]: unknown;
+};
+
+export type ParsedProposalRun = {
+  提案テーマ一覧?: ProposalTheme[];
+  提案全体の戦略サマリー?: {
+    [key: string]: unknown;
+  };
+  評価ロジック?: {
+    [key: string]: unknown;
+  };
+  注意点?: string | null;
+  _raw?: string;
+};
+
+type ParsedProposalResult = {
+  runs: ParsedProposalRun[];
+  blocks: string[];
+  parseErrors: string[];
+};
+
+function safeJsonParse(text: string): any | null {
+  try {
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * 連結された JSON テキストから {} バランスを見てブロックに分割する
+ * - 文字列リテラル内の { } は無視
+ * - エスケープシーケンスも考慮
+ */
+function splitJsonBlocks(text: string): string[] {
+  const blocks: string[] = [];
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+  let start = -1;
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+
+    if (ch === '\\') {
+      escaped = true;
+      continue;
+    }
+
+    if (ch === '"' || ch === '\'') {
+      // かなり素朴な実装だが、JSON では \" がメインなのでこれで十分
+      inString = !inString;
+      continue;
+    }
+
+    if (inString) continue;
+
+    if (ch === '{') {
+      if (depth === 0) {
+        start = i;
+      }
+      depth++;
+    } else if (ch === '}') {
+      depth--;
+      if (depth === 0 && start !== -1) {
+        const block = text.slice(start, i + 1);
+        blocks.push(block);
+        start = -1;
+      }
+    }
+  }
+
+  return blocks;
+}
+
+function parseProposalRuns(proposalText: string | null): ParsedProposalResult {
+  if (!proposalText) {
+    return { runs: [], blocks: [], parseErrors: [] };
+  }
+
+  const trimmed = proposalText.trim();
+  const blocks: string[] = [];
+  const parseErrors: string[] = [];
+  const runs: ParsedProposalRun[] = [];
+
+  // 1) 素直な単一 JSON オブジェクトとして解釈できるか？
+  if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+    const single = safeJsonParse(trimmed);
+    if (single && typeof single === 'object' && !Array.isArray(single)) {
+      runs.push({
+        ...single,
+        _raw: trimmed,
+      });
+      blocks.push(trimmed);
+      return { runs, blocks, parseErrors };
+    }
+  }
+
+  // 2) 複数 JSON オブジェクト連結としてパース
+  const candidateBlocks = splitJsonBlocks(proposalText);
+  for (const block of candidateBlocks) {
+    const parsed = safeJsonParse(block);
+    blocks.push(block);
+    if (parsed && typeof parsed === 'object') {
+      runs.push({
+        ...parsed,
+        _raw: block,
+      });
+    } else {
+      parseErrors.push('JSON のパースに失敗しました。ブロック先頭: ' + block.slice(0, 80));
+    }
+  }
+
+  return { runs, blocks, parseErrors };
+}
+
 export default function ProposalClient({ company }: { company: string }) {
   const router = useRouter();
   const [proposal, setProposal] = useState<string | null>(null);
@@ -22,6 +166,8 @@ export default function ProposalClient({ company }: { company: string }) {
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState<{ current: number; total: number } | null>(null);
   const [retryCount, setRetryCount] = useState(0);
+  const [activeRunIndex, setActiveRunIndex] = useState(0);
+  const [viewMode, setViewMode] = useState<ProposalViewMode>('single');
 
   const fetchProposal = useCallback(async (isRetry = false, signal?: AbortSignal) => {
     let progressInterval: NodeJS.Timeout | null = null;
@@ -138,19 +284,38 @@ export default function ProposalClient({ company }: { company: string }) {
   }, [fetchProposal]);
 
   const handleRetry = useCallback(() => {
-    setRetryCount(prev => prev + 1);
+    setRetryCount((prev) => prev + 1);
     fetchProposal(true);
   }, [fetchProposal]);
 
+  const parsed = useMemo(() => parseProposalRuns(proposal), [proposal]);
+  const hasJsonRuns = parsed.runs.length > 0;
+  const hasParseErrors = parsed.parseErrors.length > 0;
+
+  // 実行回数が変わった場合にインデックスを補正
+  useEffect(() => {
+    if (!parsed.runs.length) {
+      setActiveRunIndex(0);
+      return;
+    }
+    setActiveRunIndex((prev) => {
+      if (prev < 0) return 0;
+      if (prev >= parsed.runs.length) return parsed.runs.length - 1;
+      return prev;
+    });
+  }, [parsed.runs.length]);
+
   return (
     <div className="container">
-      <h1>{company} - 提案</h1>
+      <h1 style={{ marginTop: 0, fontSize: '24px', fontWeight: 600, marginBottom: 8 }}>{company} - 提案</h1>
 
-      <div style={{ height: 12 }} />
-      <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
         <button className="btn" onClick={() => router.push(`/company/${encodeURIComponent(company)}`)}>
           ← 戻る
         </button>
+        <span className="pill pill-ghost">
+          形式: {hasJsonRuns ? 'JSON（比較ビュー）' : 'Markdown（旧形式）'}
+        </span>
       </div>
 
       {loading && (
@@ -185,12 +350,168 @@ export default function ProposalClient({ company }: { company: string }) {
         </div>
       )}
 
-      {!loading && !error && proposal && (
-        <div>
-          <Markdown content={proposal} />
-        </div>
+      {!loading && !error && proposal && hasJsonRuns && (
+        <>
+          {hasParseErrors && (
+            <div className="alert" style={{ marginBottom: 16 }}>
+              一部のJSONブロックの読み込みに失敗しました。可能な範囲で表示しています。
+            </div>
+          )}
+
+          <div className="card" style={{ padding: 16, marginBottom: 16 }}>
+            <ProposalRunTabs
+              runs={parsed.runs}
+              activeIndex={activeRunIndex}
+              mode={viewMode}
+              onChangeIndex={(idx) => {
+                setViewMode('single');
+                setActiveRunIndex(idx);
+              }}
+              onChangeMode={(mode) => setViewMode(mode)}
+            />
+          </div>
+
+          {viewMode === 'single' && parsed.runs[activeRunIndex] && (
+            <div className="grid-2col" style={{ marginBottom: 16 }}>
+              <div>
+                <div className="card" style={{ padding: 16 }}>
+                  <h2 style={{ marginTop: 0, fontSize: 18, marginBottom: 8 }}>
+                    提案テーマ一覧（第{activeRunIndex + 1}回）
+                  </h2>
+                  <p className="muted" style={{ fontSize: 13, marginTop: 0 }}>
+                    ランキング順に上位テーマを表示します。
+                  </p>
+                  {(parsed.runs[activeRunIndex].提案テーマ一覧 || []).length ? (
+                    (parsed.runs[activeRunIndex].提案テーマ一覧 || [])
+                      .slice()
+                      .sort((a, b) => (a.順位 || 999) - (b.順位 || 999))
+                      .slice(0, 5)
+                      .map((theme, idx) => (
+                        <div
+                          key={idx}
+                          style={{
+                            borderTop: idx === 0 ? 'none' : '1px solid var(--border)',
+                            paddingTop: idx === 0 ? 0 : 8,
+                            marginTop: idx === 0 ? 0 : 8,
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 8,
+                              marginBottom: 4,
+                            }}
+                          >
+                            <span className="pill pill-ghost">
+                              {theme.順位 != null ? `第${theme.順位}位` : `#${idx + 1}`}
+                            </span>
+                            <strong>{theme.タイトル || 'タイトル未設定'}</strong>
+                          </div>
+                          {theme.課題仮説 && (
+                            <div style={{ fontSize: 13 }}>
+                              <Markdown content={theme.課題仮説} />
+                            </div>
+                          )}
+                        </div>
+                      ))
+                  ) : (
+                    <p className="muted" style={{ fontSize: 13 }}>
+                      テーマがまだ記載されていません。
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div>
+                <div className="card" style={{ padding: 16 }}>
+                  <h2 style={{ marginTop: 0, fontSize: 18, marginBottom: 8 }}>
+                    提案全体の戦略サマリー
+                  </h2>
+                  <p className="muted" style={{ fontSize: 13, marginTop: 0 }}>
+                    勝ち筋・接触すべき部門・リスクと打ち手をまとめて確認できます。
+                  </p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <SectionFromSummary
+                      run={parsed.runs[activeRunIndex]}
+                      field="この企業における勝ち筋"
+                      label="この企業における勝ち筋"
+                    />
+                    <SectionFromSummary
+                      run={parsed.runs[activeRunIndex]}
+                      field="最優先で接触すべき部門_キーパーソン像"
+                      label="最優先で接触すべき部門・キーパーソン像"
+                    />
+                    <SectionFromSummary
+                      run={parsed.runs[activeRunIndex]}
+                      field="潜在リスクと打ち手"
+                      label="潜在リスクと打ち手"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {viewMode === 'compare' && <ProposalComparisonTable runs={parsed.runs} />}
+
+          <div style={{ marginTop: 16 }}>
+            <ProposalJsonDebugPanel
+              rawText={proposal}
+              blocks={parsed.blocks}
+              parseErrors={parsed.parseErrors}
+            />
+          </div>
+        </>
+      )}
+
+      {!loading && !error && proposal && !hasJsonRuns && (
+        <>
+          <div className="alert" style={{ marginBottom: 16 }}>
+            提案テキストをJSONとして解釈できなかったため、Markdown形式で表示しています。
+          </div>
+          <div className="card" style={{ padding: 24 }}>
+            <Markdown content={proposal} />
+          </div>
+        </>
       )}
     </div>
   );
 }
+
+type SectionProps = {
+  run: ParsedProposalRun;
+  field: string;
+  label: string;
+};
+
+function SectionFromSummary({ run, field, label }: SectionProps) {
+  const summary = run.提案全体の戦略サマリー || {};
+  const value = summary[field];
+  let text = '';
+  if (typeof value === 'string') {
+    text = value;
+  } else if (value != null) {
+    try {
+      text = JSON.stringify(value);
+    } catch {
+      text = String(value);
+    }
+  }
+
+  return (
+    <div>
+      <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 4 }}>{label}</div>
+      {text ? (
+        <div style={{ fontSize: 13 }}>
+          <Markdown content={text} />
+        </div>
+      ) : (
+        <p className="muted" style={{ fontSize: 12, margin: 0 }}>
+          (未記載)
+        </p>
+      )}
+    </div>
+  );
+}
+
 

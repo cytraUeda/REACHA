@@ -3,13 +3,15 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiGet, apiPost, ResultsItem, ResultsResponse } from '../../../lib/api';
-import EditableSection from '../../../components/EditableSection';
+import ResultCard from '../../../components/ResultCard';
+import EditModal from '../../../components/EditModal';
 
 export default function CompanyClient({ company }: { company: string }) {
   const router = useRouter();
   const [data, setData] = useState<ResultsResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   async function load() {
     setError(null);
@@ -49,23 +51,33 @@ export default function CompanyClient({ company }: { company: string }) {
 
   const handleSaved = useCallback(() => {
     load();
-  }, [company]);
+  }, []);
+
+  const handleCardClick = useCallback((item: ResultsItem) => {
+    setEditingIndex(item.index);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setEditingIndex(null);
+  }, []);
+
+  const editingItem = editingIndex !== null ? data?.items?.find((item) => item.index === editingIndex) : null;
 
   return (
     <div className="container">
-      <div className="card" style={{ padding: 16, marginBottom: 16, display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div className="card" style={{ padding: 20, marginBottom: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-          <h1 style={{ margin: 0 }}>{company}</h1>
+          <h1 style={{ margin: 0, fontSize: '24px', fontWeight: 600 }}>{company}</h1>
           {isRunning && <span className="pill">実行中</span>}
           {!isRunning && data?.status === 'completed' && <span className="pill pill-success">完了</span>}
           {!isRunning && data?.status === 'not_found' && <span className="pill">未実行</span>}
         </div>
         {data?.progress && (
-          <p className="muted" style={{ margin: 0 }}>
+          <p className="muted" style={{ margin: 0, fontSize: '14px' }}>
             進捗: {data.progress.completed} / {data.progress.total}
           </p>
         )}
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
           <button className="btn" onClick={() => router.push('/')}>← 戻る</button>
           {canCreateProposal && (
             <button
@@ -94,18 +106,29 @@ export default function CompanyClient({ company }: { company: string }) {
       </div>
 
       {data?.items?.length ? (
-        data.items.map((item: ResultsItem) => (
-          <EditableSection
-            key={item.index}
-            company={company}
-            item={item}
-            isRunning={Boolean(isRunning)}
-            onSaved={handleSaved}
-            onRerun={handleRerun}
-          />
-        ))
+        <>
+          <div style={{ marginBottom: 8 }}>
+            <p className="muted" style={{ fontSize: '14px', margin: 0 }}>
+              調査結果をクリックして編集できます
+            </p>
+          </div>
+          {data.items.map((item: ResultsItem) => (
+            <ResultCard key={item.index} item={item} onClick={() => handleCardClick(item)} />
+          ))}
+        </>
       ) : (
         <p className="muted">結果がありません。</p>
+      )}
+
+      {editingItem && (
+        <EditModal
+          company={company}
+          item={editingItem}
+          isRunning={Boolean(isRunning)}
+          onClose={handleCloseModal}
+          onSaved={handleSaved}
+          onRerun={handleRerun}
+        />
       )}
     </div>
   );

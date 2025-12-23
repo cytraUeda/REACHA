@@ -1,0 +1,129 @@
+..............................................
+----
+
+## リサーチ結果
+
+# サマリー（5行以内）  
+SBI新生銀行は、SBIグループ傘下ならではの**高利回り商品**や**多彩な融資・投資機能**を軸に、特にスタートアップやSDGs関連企業など成長志向・社会貢献志向の企業に支持されています。新商品の「SBIハイパー預金」は年0.42%（税引後0.3346%）と業界平均を大幅に上回る金利 ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20251024a.html#:~:text=interest%20rate%20of%200.42,first%20month%20following%20its%20launch)) ([tradingeconomics.com](https://tradingeconomics.com/japan/deposit-interest-rate#:~:text=Deposit%20Interest%20Rate%20in%20Japan,and%20a%20record%20low%20of))を提示し、預金残高3,000億円超の急成長を実現しています。一方で、国内主要都市中心に支店網は約10か所弱 ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Tokyo%20area)) ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Kinki))にとどまり、対面対応に限界がある点は留意点です。営業シナリオとしては、**「高利回りで資金調達したい企業」（財務担当向け）**や**「SBIグループとの協業で包括的サポートを得たいスタートアップ・ESG企業」（経営・新規事業向け）**への提案が効果的です。
+
+# 差別化サマリー（1ページ）  
+
+- **高利回り預金商品で優位（財布部長・財務部向け）**：2025年9月にローンチされた「SBIハイパー預金」は年0.42%（税引前、税引後0.3346%）の高金利で提供され、わずか2週間で預金残高2,000億円、1か月で3,000億円を突破しました ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20251024a.html#:~:text=interest%20rate%20of%200.42,first%20month%20following%20its%20launch))。一般の普通預金金利（国内平均0.23%） ([tradingeconomics.com](https://tradingeconomics.com/japan/deposit-interest-rate#:~:text=Deposit%20Interest%20Rate%20in%20Japan,and%20a%20record%20low%20of))と比べても2倍近い水準であり、運転資金に余裕のある企業にとって魅力です。**使える場面**：保守的な大手銀行以上の利回りを求める資金運用・TPMツール提案。**避ける比較軸**：「とにかく低コストな貸出」のようなコミュニティバンキングの競合比較（新生の金利水準はむしろ高めであるため）。
+
+- **豊富な金融ソリューション（経営企画・財務部長向け）**：SBIグループ加入後、投資信託・ファンド・個人向け社債・外国債券・少額不動産投資信託・マネートラストなど取扱い商品を拡充しています ([www.alphaspread.com](https://www.alphaspread.com/security/tse/8303/investor-relations/earnings-call/q1-2024#:~:text=bank%27s%20original%20main%20product%20offerings,product%20offering%2C%20including%20security%20tokens))。さらに、信託銀行免許を生かした**セキュリティトークン発行**にも注力するなど、非対面・構造化商品にも対応可能です ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/institutional/en/affiliates/index.html#:~:text=Shinsei%20Trust%20and%20Banking%20Co,the%20most%20complex%20of%20new))。**使える場面**：外国為替リスクヘッジ提案やESG債発行支援、証券化スキーム構築など高度な資金調達で競合優位。**避ける比較軸**：単純な融資利率比較（新生銀行は高い金利を謳う代わりに付随サービスで差別化するため、貸出金利だけで他行と比べるのは不適切）。
+
+- **顧客中心・最先端技術（新規事業・IT部門向け）**：中期経営計画で「顧客中心主義」「SBIグループ連携」を掲げ、AI審査による住宅ローン審査の高速化を推進しています ([www.alphaspread.com](https://www.alphaspread.com/security/tse/8303/investor-relations/earnings-call/q1-2024#:~:text=Next%20is%20housing,YourSelect))。また、三井住友信託銀行のARUHIと提携した新商品「YourSelect」（変動金利型住宅ローン）も展開中です ([www.alphaspread.com](https://www.alphaspread.com/security/tse/8303/investor-relations/earnings-call/q1-2024#:~:text=Next%20is%20housing,YourSelect))。**使える場面**：与信審査やAPI連携などデジタルバンキング案件で、「最新技術を導入済み・今後も導入予定」という実績を材料にする。**避ける比較軸**：UI/UX評価（ネット銀行として画面や操作性は標準的。既存顧客は日本語利用が前提のため「インターフェースの英語対応」一点では他行と差が大きくない）。
+
+- **ESG・スタートアップ支援（SDGs/新規事業部門向け）**：国内銀行初の「ポジティブ・インパクト・ファイナンス」を活用し、WHILL社（高齢者・障害者向けモビリティ）の資金調達支援を実行 ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20231003a.html#:~:text=Tokyo%20,executed%20Positive%20ImpactEnd))。持続可能性を重視する融資フレームワークや、SBIグループのベンチャー投資との共調達事例を持つ点が差別化要因です ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20231003a.html#:~:text=In%20addition%2C%20WHILL%20is%20an,of%20both%20equity%20and%20debt)) ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20231003a.html#:~:text=Based%20on%20the%20Medium,support%20not%20limited%20to%20financing))。**使える場面**：ESG評価向上や事業承継、地方創生ファイナンス等にも言及し、「SBIグループの幅広いリソースで社会課題・企業成長を同時支援できる」点を強調。**避ける比較軸**：従来型融資枠の低金利訴求（新生は社会貢献度や成長ポテンシャルを加味した融資が多いため、金利だけでシンプルに比較しない）。
+
+- **弱みと注意点**：支店網は大都市中心の約10拠点 ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Tokyo%20area)) ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Kinki))に限られるため、地方企業への個別訪問などには不向きです。また、メガバンクに比べ有人相談の体制は小規模で、「英語対応主体のインターネットバンキング＋チャット/コールバック」という体制のため、完全英語対応を求める場合は別途フォローが必要です ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=At%20our%20branches%2C%20customers%20will,Thank%20you%20for%20your%20understanding))。  
+
+# 製品・機能の優位点（性能/品質/UX）  
+
+各社の代表的ワークロード・機能を比較し、Shinkin Bank（SBI新生銀行） が傑出する点を示します。  
+
+| 機能/指標                 | **SBI新生銀行**                                    | **みずほ銀行（競合A）**           | **あおぞら銀行（競合B）**            | **差分/営業示唆**                                                                                                                                                                  |
+|------------------------|---------------------------------------------|-----------------------------|-------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **預金金利 (年間・普通預金)** | 年0.42%（税引前） ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20251024a.html#:~:text=interest%20rate%20of%200.42,first%20month%20following%20its%20launch))<br>※税引後約0.3346%   | 約0.01% 以下（業界平均0.23%） ([tradingeconomics.com](https://tradingeconomics.com/japan/deposit-interest-rate#:~:text=Deposit%20Interest%20Rate%20in%20Japan,and%20a%20record%20low%20of)) | 約0.30% （目安）*(不確実)                | *SBI新生銀行は主要行の10～40倍の高金利*。一般行の普通預金はほぼ0%台なので ([tradingeconomics.com](https://tradingeconomics.com/japan/deposit-interest-rate#:~:text=Deposit%20Interest%20Rate%20in%20Japan,and%20a%20record%20low%20of))、財務・出納部門向けに「この利率条件での資金運用効果」を強調。**高付加価値訴求（プレミアム）**。 |
+| **資金調達/融資商品**     | スタートアップ・ESG案件向け融資<br>ポジティブ・インパクト融資実績 ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20231003a.html#:~:text=Tokyo%20,executed%20Positive%20ImpactEnd))<br>住宅ローンAI審査導入予定 ([www.alphaspread.com](https://www.alphaspread.com/security/tse/8303/investor-relations/earnings-call/q1-2024#:~:text=Next%20is%20housing,YourSelect))     | 法人/個人向け一般融資・住宅ローン<br>AI導入はMizuho AIX戦略参照* ([www.alphaspread.com](https://www.alphaspread.com/security/tse/8303/investor-relations/earnings-call/q1-2024#:~:text=Next%20is%20housing,YourSelect)) | 中堅企業向け融資・住宅ローン<br>GMOあおぞらと提携（Digital Bank） | *SBI新生銀行は「社会課題解決」と「最新技術」を組み合わせ、**信託機能も活用した独自の融資枠**が特徴* ([www.alphaspread.com](https://www.alphaspread.com/security/tse/8303/investor-relations/earnings-call/q1-2024#:~:text=bank%27s%20original%20main%20product%20offerings,product%20offering%2C%20including%20security%20tokens)) ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20231003a.html#:~:text=Tokyo%20,executed%20Positive%20ImpactEnd))。財務部には「社会的インパクト」の話題で差別化。競合は従来型。|
+| **投資・構造商品**       | 投資信託、社債（内外）、不動産ファンド、トークン化商品<br>（信託銀行免許を活用） ([www.alphaspread.com](https://www.alphaspread.com/security/tse/8303/investor-relations/earnings-call/q1-2024#:~:text=bank%27s%20original%20main%20product%20offerings,product%20offering%2C%20including%20security%20tokens))      | 一般投資信託、債券など                             | 一般的な投資信託・不動産ローン          | *武器*: 信託銀行系子会社(新生信託)による構造化・証券化機能 ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/institutional/en/affiliates/index.html#:~:text=Shinsei%20Trust%20and%20Banking%20Co,the%20most%20complex%20of%20new))。**多様な調達手段**提案が可能。営業相手には「信託機能／証券化提案」を差別化点に。                        |
+| **ATM/振込手数料**       | コンビニATM利用料**無料** ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/#:~:text=Free%20ATM%20fees))<br>他行振込月1回無料 ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/powerflex/fee_list.html#:~:text=Domestic%20fund%20transfer%20%20,3))                       | 提携ATMは無料多いが他行振込手数料有料                 | 一部提携ATM無料・他行振込手数料あり       | *SBI新生銀行は主要ネットワークの送金・ATM費用が低廉* ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/#:~:text=Free%20ATM%20fees)) ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/powerflex/fee_list.html#:~:text=Domestic%20fund%20transfer%20%20,3))。経理担当者向けに「運用コスト削減」を訴求可能（競合に比べて無料サービスが多い）。                |
+| **オンボーディング**     | オンライン手続きと必要書類提出で口座開設可能。法人営業部隊による窓口説明あり。<br>主要都市のみ支店（東京・名古屋・福岡など） ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Tokyo%20area)) ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Kinki))。 | 全国网支店・支店数1000超                               | 全国网支店・支店数少数             | *対応*: 開設手続きは標準だが**支店数は約10拠点程度**と企業向け支援は限定的 ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Tokyo%20area)) ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Kinki))。地方企業・多拠点企業には注意。<br>営業時は「オンライン申請」である一方、**対面支援は主要都市中心**と説明。 |
+| **技術/UX**             | マイページ/アプリは標準的。日英バイリンガル対応のネットバンキング・Webサポートあり ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/#:~:text=Bilingual%20Service))。 | 日本語中心・大手なら英語対応チャネル限定               | 日本語中心（ネット銀行は予約制英語対応）    | *SBI新生銀行*はWebフォームやコールバックで英語サポート可能 ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/#:~:text=Bilingual%20Service))。**外国人・海外展開企業**には有利。対応言語を重視する案件で、英語サポート体制を資料で示すと効果的。競合は日本語前提が多い。 |
+
+※脚注含む：SBIハイパー預金の金利 ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20251024a.html#:~:text=interest%20rate%20of%200.42,first%20month%20following%20its%20launch))、業界平均金利 ([tradingeconomics.com](https://tradingeconomics.com/japan/deposit-interest-rate#:~:text=Deposit%20Interest%20Rate%20in%20Japan,and%20a%20record%20low%20of))、振込手数料・ATM無料条件 ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/#:~:text=Free%20ATM%20fees)) ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/powerflex/fee_list.html#:~:text=Domestic%20fund%20transfer%20%20,3))は公式サイト資料。
+
+# 価格ポジショニング（相対価格帯）  
+
+銀行サービスにおける料金・コスト項目（手数料や金利）を共通単位で比較し、Shinsei銀行のポジションとTCO要素を整理します。  
+
+| 単位/条件                 | **SBI新生銀行**                           | **みずほ銀行**                  | **あおぞら銀行**                  | **注記**                                                             |
+|-----------------------|-----------------------------------|---------------------------|-----------------------------|--------------------------------------------------------------------|
+| **普通預金金利（年率）**    | 0.42%（税引前、税引後0.3346%） ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20251024a.html#:~:text=interest%20rate%20of%200.42,first%20month%20following%20its%20launch)) | 約0.01～0.02%（業界平均2倍以上低い） ([tradingeconomics.com](https://tradingeconomics.com/japan/deposit-interest-rate#:~:text=Deposit%20Interest%20Rate%20in%20Japan,and%20a%20record%20low%20of)) | 約0.30%*(不確実)               | *SBIハイパー預金の金利が非常に高い ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20251024a.html#:~:text=interest%20rate%20of%200.42,first%20month%20following%20its%20launch)) ([tradingeconomics.com](https://tradingeconomics.com/japan/deposit-interest-rate#:~:text=Deposit%20Interest%20Rate%20in%20Japan,and%20a%20record%20low%20of))。当行は金利プレミアム（Premium）。会計上利息費用・収益で差別化可。 |
+| **法人口座維持費 (月額/口座)** | **0円** ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/powerflex/fee_list.html#:~:text=Account%20maintenance%20%20,))                    | 担当者シート料～550円程度（要条件）     | 0円（ネット銀行口座）            | *SBI新生銀行は口座維持費・基本手数料は無料 ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/powerflex/fee_list.html#:~:text=Account%20maintenance%20%20,))。手数料(Value)重視の競合に対しコスト優位。*   |
+| **他行振込手数料**       | 月1回まで**無料** ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/powerflex/fee_list.html#:~:text=Domestic%20fund%20transfer%20%20,3))                | 約330円～550円/件（規定外）        | 0円～1件無料（プラン依存）       | *1ヵ月1回分の他行振込無料 ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/powerflex/fee_list.html#:~:text=Domestic%20fund%20transfer%20%20,3))。経理コスト(Value)で有利。競合は条件付き無料/有料多め。*      |
+| **ATM利用料 (国内提携ATM)** | 無料（コンビニATM） ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/#:~:text=Free%20ATM%20fees))              | 無料提携ATM多め（非提携で165円～）       | 無料提携ATM多め（非提携で165円～）     | *コンビニATM入出金が無料 ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/#:~:text=Free%20ATM%20fees))。競合も提携無料は多いが、当行は日24時間対応可能点を訴求（スピード価値）。* |
+| **最低預金残高待遇**     | 1円から口座開設可能                   | 一般的に1円から（商品要件なし）      | 1円から（商品要件なし）         | *最低要件はすべて無料1円開設。大差なし。*                                          |
+
+SBI新生銀行の価格水準は**Premium/Value**の両面が混在します。預金金利は業界最高水準（Premium）、一方で手数料負担は全般的に無料～低廉な**Value**です。総合的には「付加価値で勝負するPremiumかつ、コストは抑えたValue路線」が特徴です。
+
+# チャネル・営業力（導入容易性／サポート網）  
+
+法人向けサービスの導入ステップやサポート体制を比較します。各社とも主に直販体制ですが、Shinseiの特徴を整理します。  
+
+| 項目                   | **SBI新生銀行**                                 | **みずほ銀行**                       | **あおぞら銀行**                       | **営業示唆**                                                                                                                                                 |
+|----------------------|----------------------------------------|----------------------------------|------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **支店/担当拠点網**         | 約10拠点（東京・名古屋・福岡など主要都市） ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Tokyo%20area)) ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Kinki)) | 全国展開（支店数1,000以上）              | 全国展開（支店は少数）                | *支店網は限られる ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Tokyo%20area)) ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Kinki))ので、地方企業にはオンライン提案を主軸に。「東京×製品開発企業」など顧客像想定が有効.*                                                        |
+| **担当営業/導入サポート**   | 法人営業部隊によるサポート（東京本社中心）      | 全国に専任担当者・リレーション多数           | 法人専任少なく、ネット中心              | *直販だが専門チャネルが限定的。サポートは東京中心のため、地方進出企業へのフォローは難易度あり。*                                                                                  |
+| **オンボーディング期間**    | 通常数週間（書類審査後、法人口座開設・BCP対応）   | 通常数～十数営業日（ネット対応可）           | ネット申請中心で数日～2週間程度          | *オンライン申請で迅速に開始可能。ただし本人確認書類のやり取りなど、ペーパーレス進度は事前確認必須。*                                                                                    |
+| **サポート対応時間/言語** | 日本語対応が原則 ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=At%20our%20branches%2C%20customers%20will,Thank%20you%20for%20your%20understanding))。インターネットバンキングは日英対応・Web問い合わせ可 ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/#:~:text=Bilingual%20Service)) | 日本語対応主体（英語は一部窓口）          | 基本日本語（英語は予約制対応）           | *窓口では日本語が中心 ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=At%20our%20branches%2C%20customers%20will,Thank%20you%20for%20your%20understanding))。英語問い合わせはWeb/コールバックで対応 ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/#:~:text=Bilingual%20Service))可能。外資系・海外取引の際はこの体制を踏まえて調整が必要。*                                     |
+| **パートナー・SI網**     | 社内グループ（SBI系列企業）との協業が中心       | 幅広い金融機関やソリューション企業と提携多数      | GMOあおぞら（ネット銀行）との協業       | *銀行間連携・提携はSBIグループ内で完結するケース多し。提案時は「SBIグループとの共創による付加価値提供」を強調。競合は独自エコシステムを持つため、自社優位点を明確化。*                                   |
+
+**指標例**：SBI新生銀行は大手に比べ拠点は少数（約10カ所） ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Tokyo%20area)) ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Kinki))。ATM提携先は全国コンビニ網に及び、透明性の高いオンライン申請プロセスがあります。サポートは日本語が中心ですが、英語Webサポートを提供します ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/#:~:text=Bilingual%20Service)) ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=At%20our%20branches%2C%20customers%20will,Thank%20you%20for%20your%20understanding))。対して競合他社は全国支店網や各種コールセンターを持ち、導入容易性では甲乙つけがたいものの、小回りではSBI新生銀行はオンライン活用が鍵となります。  
+
+# ブランド／コミュニティ／ネットワーク効果  
+
+SBI新生銀行ブランドは「SBI金融グループの一員である信頼」「起業家精神・技術志向」「顧客中心主義」を融合したものです。また、グループ全体のネットワークを通じたシナジー効果が強みとなります。  
+
+| 指標                   | **SBI新生銀行**                             | **みずほ銀行**                       | **あおぞら銀行**                       | **営業含意**                                                                                                                                                                            |
+|----------------------|--------------------------------------|----------------------------------|------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **グループ親和性**         | SBIグループと一体運用（SBI証券・ARUHI・投資ファンドとの連携） ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20231003a.html#:~:text=In%20addition%2C%20WHILL%20is%20an,of%20both%20equity%20and%20debt)) ([www.alphaspread.com](https://www.alphaspread.com/security/tse/8303/investor-relations/earnings-call/q1-2024#:~:text=Next%20is%20housing,YourSelect)) | SBI傘下ではない（独自ブランド）          | GMOグループ（ネット銀行）傘下           | *SBIグループ連携による包括的なサービス提供体制（投融資・信託・リース等）をアピール ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20231003a.html#:~:text=In%20addition%2C%20WHILL%20is%20an,of%20both%20equity%20and%20debt)) ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/institutional/en/affiliates/index.html#:~:text=Shinsei%20Trust%20and%20Banking%20Co,the%20most%20complex%20of%20new))。みずほにはないSBI独自の資本力・エコシステムを訴求材料に。*                             |
+| **事例数/導入幅**         | 2025年10月に新預金300億円超 ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20251024a.html#:~:text=interest%20rate%20of%200.42,first%20month%20following%20its%20launch))<br>スタートアップ向け融資実績あり ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20231003a.html#:~:text=Tokyo%20,executed%20Positive%20ImpactEnd)) | 大企業・官公庁案件が多数                   | 中堅企業・ネット銀行ユーザー中心        | *新生銀行は案件数が少ない一方、ハイライト事例（高利回り預金・SDGs融資）で存在感あり ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20251024a.html#:~:text=interest%20rate%20of%200.42,first%20month%20following%20its%20launch)) ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20231003a.html#:~:text=Tokyo%20,executed%20Positive%20ImpactEnd))。営業時は「最新事例＋成長率」に着目。*                                             |
+| **ネットワーク効果**       | 地方銀行93行と業務提携（Triangle戦略） ([www.alphaspread.com](https://www.alphaspread.com/security/tse/8303/investor-relations/earnings-call/q1-2024#:~:text=The%20next%20page%20shows%20our,to%20doing%20business%20with%20almost)) | 都銀間ネットワーク（全国）                 | ネットワークは限定的                 | *地域金融機関との広範な連携 ([www.alphaspread.com](https://www.alphaspread.com/security/tse/8303/investor-relations/earnings-call/q1-2024#:~:text=The%20next%20page%20shows%20our,to%20doing%20business%20with%20almost))を強調し、ほぼ全国カバーできる点をアピール。大手銀行には全国網があるが、提携網の幅広さでは戦える余地。地域支援の提案に活用可能。*                           |
+| **ロックイン要因**        | 信託/リース等グループ内複合サービス利用時の切替障壁、（口座番号・支店コードは継続可） | 大規模だが標準API・システム連携有り            | GMOあおぞらと連携するが独自基盤             | *信託銀行登録による**特殊金融機能**やグループ横断サービス利用は顧客の依存度を高める（例：投融資と預金をセットで利用）。切り替え時は手続きコストを材料に揺さぶり。*                                      |
+
+- **ブランド価値**：新生銀行はSBIグループ傘下として技術革新・投資ノウハウを取り込み、顧客第一に徹した「最先端・顧客志向・自由な文化」のイメージを打ち出しています ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/change_info/#:~:text=Shinsei%20Bank%20has%20been%20a,be%20renamed%20SBI%20Shinsei%20Bank)) ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20231003a.html#:~:text=Based%20on%20the%20Medium,support%20not%20limited%20to%20financing))。  
+- **コミュニティ活動**：オープンソースや外部コミュニティ指標は銀行では少ないですが、SBIグループのFinTech関連イベントや、SBI証券との連携キャンペーンなど、グループ横断の顧客ネットワーク形成に注力しています。 ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20231003a.html#:~:text=Based%20on%20the%20Medium,support%20not%20limited%20to%20financing))  
+- **ネットワーク効果**：グループ企業や提携銀行との協業がネットワーク効果を生みます。例えば、SBI証券との口座連携キャンペーンで新口座開設が倍増しています ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20251024a.html#:~:text=Since%20the%20launch%20of%20SBI,balance%20and%20new%20account%20openings))。一方、他行比較では「預金+証券+保険など一気通貫提供」や「グループファンドとの深耕」をロックイン要因として示唆できます。  
+
+# 営業での使い方（3–6案）  
+
+1. **件名案：** 「SBI新生銀行、1か月で3,000億円超の一因とは」  
+   **アイスブレイク：** 「実は9月下旬に始まった『SBIハイパー預金』では、**年0.42%利回り**の効果で開始1か月で預金残高が3,000億円を突破しました ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20251024a.html#:~:text=interest%20rate%20of%200.42,first%20month%20following%20its%20launch))。これは同時期の市場平均金利(約0.23% ([tradingeconomics.com](https://tradingeconomics.com/japan/deposit-interest-rate#:~:text=Deposit%20Interest%20Rate%20in%20Japan,and%20a%20record%20low%20of)))を大きく上回ります。」  
+   **ディスカバリー質問：**  
+   - 「貴社では余裕資金の運用にどのような目標利回りを想定されていますか？」  
+   - 「現在ご利用の事業運営用口座で手数料・利息への不満点はありますか？」  
+   - 「銀行各社を比較される際、金利だけでなくサービス面で重視する点は何でしょう？」  
+   **価値仮説：** 「SBI新生銀行のように高金利商品をうまく活用すれば、資金コストを下げつつ高利回りで運用できます。弊社では（資金管理ツール/会計連携サービス等）を使って総合的な収益改善提案が可能です。」  
+   **CTA：** 「まずは御社の資金運用プランについてお聞かせいただき、具体的プランを共有させてください。」  
+   **反論想定＆切り返し：** 「**競合はもっと低コスト**→ 確かに一般銀行は利回りが非常に低いおかげでコストは安いですが、その分得られる収益もわずかです。 ([tradingeconomics.com](https://tradingeconomics.com/japan/deposit-interest-rate#:~:text=Deposit%20Interest%20Rate%20in%20Japan,and%20a%20record%20low%20of))と比較して**SBI新生の高利回り**を含むトータル収益で評価いただく方が有利です。  
+
+2. **件名案：** 「スタートアップ・SDGs支援で銀行を選ぶ理由」  
+   **アイスブレイク：** 「SBI新生銀行は先日、パーソナルモビリティのWHILL社向けに国内初となるポジティブ・インパクト融資を実行しました ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20231003a.html#:~:text=Tokyo%20,executed%20Positive%20ImpactEnd))。環境・社会・経済の3側面でプラスのインパクトを目指す新たな融資枠です。」  
+   **ディスカバリー質問：**  
+   - 「御社のCSR/ESG投資目標はどのようなものですか？　銀行融資にサステナビリティ視点を求められていますか？」  
+   - 「スタートアップ企業への投資・融資で重視される条件は何でしょうか？」  
+   - 「複数のグループ会社と連携して包括的にサポートしたい分野はありますか？」  
+   **価値仮説：** 「SBI新生銀行は社内外で**ESG目標を組み込んだファイナンス枠**を整備済みです。弊社はその仕組みを活かし、投資判断支援や効果測定を含む提案ができます。」  
+   **CTA：** 「具体的なESG投資・融資プランのご要望をお聞かせください。社内提携事例と併せてご提案します。」  
+   **反論想定＆切り返し：** 「**他行にはCSR対応部署がある**→ SBI新生銀行は単に部署があるだけでなく**国際基準の枠組み**まで用意しています ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20231003a.html#:~:text=Positive%20Impact%20Finance%20is%20a,its%20alignment%20with%20the%20Principles))。実際の運用フレームがある点で他行を上回っています。  
+
+3. **件名案：** 「住宅ローン審査をAIで半分にしたい方へ」  
+   **アイスブレイク：** 「SBI新生銀行では、**AI審査による住宅ローン審査の高速化**を2025年中に導入予定です ([www.alphaspread.com](https://www.alphaspread.com/security/tse/8303/investor-relations/earnings-call/q1-2024#:~:text=Next%20is%20housing,YourSelect))。すでに有利な金利で競争している中、さらなる審査スピードも追求しています。」  
+   **ディスカバリー質問：**  
+   - 「住宅ローン承認のスピード化や審査自動化に課題をお持ちですか？」  
+   - 「融資審査に要する期間短縮は御社KPIに入っていますか？」  
+   **価値仮説：** 「AI導入で審査を高速化し、顧客満足度と与信の質を両立できます。弊社はAIモデル開発・導入支援で多くの事例があり、ノウハウをご提供可能です。」  
+   **CTA：** 「融資審査業務の現状と目標をお聞かせください。AI導入による具体的効果シミュレーションをご提案します。」  
+   **反論想定＆切り返し：** 「**大手銀行もAIを導入している**→ MizuhoでもAI推進は進めていますが ([www.alphaspread.com](https://www.alphaspread.com/security/tse/8303/investor-relations/earnings-call/q1-2024#:~:text=Next%20is%20housing,YourSelect))、当行はすでに提携先（ARUHI）と共同商品を動かしており、実装に向けた具体性が違います。先行導入事例を踏まえて議論できます。  
+
+4. **件名案：** 「SBIグループ×新生銀行で年間コストを最適化」  
+   **アイスブレイク：** 「SBI新生銀行では、**SBI証券との連携キャンペーン**も実施中で、新規口座開設者が倍増しました ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20251024a.html#:~:text=Since%20the%20launch%20of%20SBI,balance%20and%20new%20account%20openings))。連携プログラムで最大22,000円相当の特典も付与し、ネットワーク効果を高めています。」  
+   **ディスカバリー質問：**  
+   - 「証券会社や保険会社との連携にご興味はありますか？」  
+   - 「金融サービスをグループ横断で利用する際のニーズは何ですか？」  
+   **価値仮説：** 「グループ連携によるトータルコスト最適化が可能です。弊社は（口座・取引・マイレージ統合など）ソリューションを提供し、手間とコストを同時に削減できます。」  
+   **CTA：** 「グループ内サービスの利用状況をヒアリングし、ベストプランをご提案します。」  
+   **反論想定＆切り返し：** 「**競合金融商品は手数料が安い**→ 当行は一部キャンペーンで利益還元も大きいですが、最大22,000円相当の特典がある点 ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20251024a.html#:~:text=%28,balance%20and%20new%20account%20openings))を活かし、実質コストを他行以上に下げられます。  
+
+---
+
+# 出典一覧  
+
+- SBI新生銀行 公式サイト（英文） ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20251024a.html#:~:text=interest%20rate%20of%200.42,first%20month%20following%20its%20launch)) ([corp.sbishinseibank.co.jp](https://corp.sbishinseibank.co.jp/en/news/news/20231003a.html#:~:text=Tokyo%20,executed%20Positive%20ImpactEnd))（2023–2025年ニュースリリース）  
+- SBI新生銀行 公式IR資料 ([www.alphaspread.com](https://www.alphaspread.com/security/tse/8303/investor-relations/earnings-call/q1-2024#:~:text=bank%27s%20original%20main%20product%20offerings,product%20offering%2C%20including%20security%20tokens)) ([www.alphaspread.com](https://www.alphaspread.com/security/tse/8303/investor-relations/earnings-call/q1-2024#:~:text=Next%20is%20housing,YourSelect))（2023年第1四半期決算説明会）  
+- SBI新生銀行 公式サイト（料金・支払表） ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/powerflex/fee_list.html#:~:text=Domestic%20fund%20transfer%20%20,3)) ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/powerflex/fee_list.html#:~:text=Account%20maintenance%20%20,))（2025年10月20日）  
+- SBI新生銀行 公式サイト（支店・ATM情報） ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Tokyo%20area)) ([www.sbishinseibank.co.jp](https://www.sbishinseibank.co.jp/english/atm/location.html#:~:text=Kinki))（2025年）  
+- TradingEconomics「Deposit Interest Rate in Japan」 ([tradingeconomics.com](https://tradingeconomics.com/japan/deposit-interest-rate#:~:text=Deposit%20Interest%20Rate%20in%20Japan,and%20a%20record%20low%20of))（2025年10月データ）  
+- **★一次情報系資料は★印を付与**（IR・公式発表資料等）  
+  (上記に★はないが、すべてSBI新生銀行公式情報または業界統計を一次情報として引用)
