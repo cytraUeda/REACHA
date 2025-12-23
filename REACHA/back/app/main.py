@@ -13,9 +13,11 @@ import subprocess
 import json
 import logging
 import re
-from typing import List, Optional, Dict, Any, Tuple
+from typing import List, Optional, Dict, Any, Tuple, Set
+import itertools
 import base64
 import binascii
+import networkx as nx
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
@@ -46,6 +48,7 @@ port = int(os.getenv("PORT", 8000))
 # Configuration
 # ----------------------
 BACK_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+APP_DIR = os.path.dirname(os.path.abspath(__file__))
 # OUTPUTS_ROOT can be overridden by environment variable for flexibility
 OUTPUTS_ROOT = os.getenv("OUTPUTS_ROOT", os.path.join(BACK_DIR, "outputs"))
 
@@ -53,7 +56,7 @@ FRONT_ORIGIN = os.getenv("FRONT_ORIGIN", "http://localhost:3000")
 
 # Dify API Configuration (from environment variables)
 DIFY_API_KEY1 = os.getenv("DIFY_API_KEY1", "")  # Chat flow API (existing)
-DIFY_API_KEY2 = os.getenv("DIFY_API_KEY2", "")  # Workflow API (new)
+DIFY_API_KEY2 = os.getenv("DIFY_API_KEY2", "")  # Workflow API (research/proposal)
 DIFY_USER_ID = os.getenv("DIFY_USER_ID", "REACHA_agent")
 DIFY_TIMEOUT = int(os.getenv("DIFY_TIMEOUT", "10800"))
 DIFY_MAX_RETRIES = int(os.getenv("DIFY_MAX_RETRIES", "3"))
@@ -64,6 +67,22 @@ HISTORY_LIMIT = int(os.getenv("EDIT_HISTORY_LIMIT", "10"))
 # Dify API Endpoints
 DIFY_CHAT_ENDPOINT = "https://api.dify.ai/v1/chat-messages"
 DIFY_WORKFLOW_ENDPOINT = "https://api.dify.ai/v1/workflows/run"
+
+# Keyword stopwords configuration (for rule-based co-occurrence)
+KEYWORD_STOPWORDS_PATH = os.getenv(
+    "KEYWORD_STOPWORDS_PATH",
+    os.path.join(APP_DIR, "stopwords_keywords.txt"),
+)
+_KEYWORD_STOPWORDS: Optional[Set[str]] = None
+_SUDACHI_TOKENIZER: Optional[Any] = None
+_SUDACHI_MODE: Optional[Any] = None
+
+try:
+    from sudachipy import dictionary as sudachi_dictionary  # type: ignore
+    from sudachipy import tokenizer as sudachi_tokenizer  # type: ignore
+except ImportError:
+    sudachi_dictionary = None
+    sudachi_tokenizer = None
 
 QUERIES: List[str] = [
     "事業の全体像",
@@ -776,7 +795,7 @@ def create_proposal(company: str) -> Dict[str, Any]:
     """Create a proposal by processing each .txt file sequentially and calling Dify workflow API."""
     try:
         logger.info(f"Proposal creation request received for company: {company}")
-        
+
         if not DIFY_API_KEY2:
             logger.error("DIFY_API_KEY2 is not configured")
             raise HTTPException(status_code=500, detail="DIFY_API_KEY2 is not configured")
@@ -785,11 +804,38 @@ def create_proposal(company: str) -> Dict[str, Any]:
         dir_path = company_dir(company)
         if not os.path.isdir(dir_path):
             raise HTTPException(status_code=404, detail=f"Company '{company}' not found")
-        
+
         proposal_txt_path = os.path.join(dir_path, f"{company}_proposal.txt")
         proposal_md_path = os.path.join(dir_path, f"{company}_proposal.md")
         progress_file = os.path.join(dir_path, f"{company}_proposal_progress.json")
-        
+
+        # If a proposal creation is already in progress for this company, prevent starting another one
+        if os.path.exists(progress_file) and not os.path.exists(proposal_txt_path):
+            try:
+                with open(progress_file, "r", encoding="utf-8") as f:
+                    progress_data = json.load(f)
+                status = progress_data.get("status")
+                current = progress_data.get("current")
+                total = progress_data.get("total")
+                # Treat missing status as processing for safety when some progress exists
+                if status is None and isinstance(current, int) and isinstance(total, int) and total > 0:
+                    status = "processing"
+                if status == "processing":
+                    logger.info(
+                        f"Proposal creation already in progress for {company} "
+                        f"(current={current}, total={total}), returning 409"
+                    )
+                    raise HTTPException(
+                        status_code=409,
+                        detail=f"会社 '{company}' の提案作成は既に実行中です。完了を待ってから再度お試しください。",
+                    )
+            except HTTPException:
+                # そのまま上に投げる
+                raise
+            except Exception as e:
+                # 進捗ファイルが壊れている場合はログだけ出して新規実行を許可
+                logger.warning(f"Failed to read proposal progress file {progress_file}: {e}")
+
         # If proposal already exists, return it
         if os.path.exists(proposal_txt_path):
             try:
@@ -1098,6 +1144,412 @@ def create_proposal(company: str) -> Dict[str, Any]:
         except Exception:
             pass
         raise HTTPException(status_code=500, detail=f"提案作成中に予期しないエラーが発生しました: {str(e)}")
+
+
+def _split_json_blocks(text: str) -> List[str]:
+    """Split concatenated JSON objects using brace depth, ignoring braces inside strings."""
+    blocks: List[str] = []
+    depth = 0
+    in_string = False
+    escaped = False
+    start = -1
+
+    for i, ch in enumerate(text):
+        if escaped:
+            escaped = False
+            continue
+        if ch == "\\":
+            escaped = True
+            continue
+        if ch == '"' or ch == "'":
+            in_string = not in_string
+            continue
+        if in_string:
+            continue
+        if ch == "{":
+            if depth == 0:
+                start = i
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0 and start != -1:
+                blocks.append(text[start : i + 1])
+                start = -1
+    return blocks
+
+
+def _extract_strings(obj: Any, path: Optional[List[str]] = None) -> List[Tuple[str, List[str]]]:
+    """Recursively extract string leaves with their key path."""
+    if path is None:
+        path = []
+    results: List[Tuple[str, List[str]]] = []
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            results.extend(_extract_strings(v, path + [str(k)]))
+    elif isinstance(obj, list):
+        for v in obj:
+            results.extend(_extract_strings(v, path))
+    elif isinstance(obj, str):
+        if obj.strip():
+            results.append((obj, path))
+    return results
+
+
+def load_keyword_stopwords() -> Set[str]:
+    """
+    Load keyword stopwords from external file (1 token per line).
+    Lines starting with '#' and empty lines are ignored.
+    The result is cached in memory.
+    """
+    global _KEYWORD_STOPWORDS
+    if _KEYWORD_STOPWORDS is not None:
+        return _KEYWORD_STOPWORDS
+
+    path = KEYWORD_STOPWORDS_PATH
+    words: Set[str] = set()
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            for line in f:
+                s = line.strip()
+                if not s or s.startswith("#"):
+                    continue
+                # 正規化：英数字は小文字にそろえる
+                words.add(s.lower())
+    except FileNotFoundError:
+        logger.info(f"Keyword stopwords file not found: {path} (using empty set)")
+    except Exception as e:
+        logger.warning(f"Failed to load keyword stopwords from {path}: {e}")
+
+    _KEYWORD_STOPWORDS = words
+    return _KEYWORD_STOPWORDS
+
+
+def _get_sudachi_tokenizer() -> Optional[Any]:
+    """Create and cache SudachiPy tokenizer if available."""
+    global _SUDACHI_TOKENIZER, _SUDACHI_MODE
+    if _SUDACHI_TOKENIZER is not None:
+        return _SUDACHI_TOKENIZER
+    if sudachi_dictionary is None or sudachi_tokenizer is None:
+        logger.info("SudachiPy not available; falling back to regex tokenizer")
+        return None
+    try:
+        _SUDACHI_TOKENIZER = sudachi_dictionary.Dictionary().create()
+        _SUDACHI_MODE = sudachi_tokenizer.Tokenizer.SplitMode.C
+        logger.info("SudachiPy tokenizer initialized for keyword extraction")
+    except Exception as e:
+        logger.warning(f"Failed to initialize SudachiPy tokenizer: {e}")
+        _SUDACHI_TOKENIZER = None
+        _SUDACHI_MODE = None
+    return _SUDACHI_TOKENIZER
+
+
+def _tokenize_japanese(text: str) -> List[str]:
+    """
+    Japanese tokenization for keyword extraction.
+    - Prefer SudachiPy (名詞のみ＋正規化) if available
+    - Fallback to simple regex-based tokenizer otherwise
+    """
+    # Normalize whitespace
+    text = re.sub(r"\s+", " ", text)
+
+    stopwords = load_keyword_stopwords()
+
+    tk = _get_sudachi_tokenizer()
+    if tk is not None and _SUDACHI_MODE is not None:
+        try:
+            tokens: List[str] = []
+            for morpheme in tk.tokenize(text, _SUDACHI_MODE):
+                pos = morpheme.part_of_speech()
+                # 名詞のみを対象にする（記号などは除外）
+                if not pos or pos[0] != "名詞":
+                    continue
+                norm = morpheme.normalized_form()
+                if not norm or len(norm) < 2:
+                    continue
+                norm_l = norm.lower()
+                if norm_l in stopwords:
+                    continue
+                # 英数字のみの短い断片は除外
+                if re.fullmatch(r"[a-z0-9]+", norm_l) and len(norm_l) <= 3:
+                    continue
+                tokens.append(norm_l)
+            if tokens:
+                return tokens
+        except Exception as e:
+            logger.warning(f"Sudachi tokenization failed, falling back to regex: {e}")
+
+    # Fallback: simple regex-based tokenization
+    tokens = re.findall(r"[一-龥々〆ヵヶぁ-んァ-ンA-Za-z0-9]{2,}", text)
+    tokens = [t.lower() for t in tokens]
+    filtered: List[str] = []
+    for t in tokens:
+        if t in stopwords:
+            continue
+        if re.fullmatch(r"[a-z0-9]+", t) and len(t) <= 3:
+            continue
+        filtered.append(t)
+    return filtered
+
+
+@app.get("/api/proposal/{company}/keywords")
+def get_proposal_keywords(company: str, runIndex: int = 0, top: int = 30) -> Dict[str, Any]:
+    """
+    Analyze proposal JSON for a company and return keyword scores and simple co-occurrence network.
+    - runIndex: 0-based index of proposal run (JSON block)
+    - top: number of top keywords to return
+    """
+    try:
+        if top <= 0:
+            top = 10
+        if top > 100:
+            top = 100
+
+        dir_path = company_dir(company)
+        if not os.path.isdir(dir_path):
+            raise HTTPException(status_code=404, detail=f"Company '{company}' not found")
+
+        proposal_txt_path = os.path.join(dir_path, f"{company}_proposal.txt")
+        if not os.path.exists(proposal_txt_path):
+            raise HTTPException(status_code=404, detail="Proposal file not found")
+
+        try:
+            with open(proposal_txt_path, "r", encoding="utf-8") as f:
+                proposal_text = f.read()
+        except Exception as e:
+            logger.error(f"Failed to read proposal file for {company}: {e}")
+            raise HTTPException(status_code=500, detail="提案ファイルの読み込みに失敗しました")
+
+        trimmed = proposal_text.strip()
+        if not trimmed:
+            raise HTTPException(status_code=400, detail="Proposal file is empty")
+
+        # Parse JSON runs (single object or concatenated objects)
+        runs: List[Dict[str, Any]] = []
+        if trimmed.startswith("{") and trimmed.endswith("}"):
+            try:
+                obj = json.loads(trimmed)
+                if isinstance(obj, dict):
+                    runs.append(obj)
+            except json.JSONDecodeError:
+                pass
+
+        if not runs:
+            blocks = _split_json_blocks(proposal_text)
+            for b in blocks:
+                try:
+                    obj = json.loads(b)
+                    if isinstance(obj, dict):
+                        runs.append(obj)
+                except json.JSONDecodeError:
+                    continue
+
+        if not runs:
+            raise HTTPException(status_code=400, detail="提案テキストをJSONとして解釈できませんでした")
+
+        # NOTE: 共起ネットワークは第1〜N回すべての提案JSONをまとめたテキストから構築する。
+        total_runs = len(runs)
+
+        # Cache path for keyword network (all runs combined)
+        cache_path = os.path.join(dir_path, f"{company}_proposal_keywords_all.json")
+
+        # Return cached result if available
+        if os.path.exists(cache_path):
+            try:
+                with open(cache_path, "r", encoding="utf-8") as f:
+                    cached = json.load(f)
+                if isinstance(cached, dict) and "keywords" in cached and "edges" in cached:
+                    return cached
+            except Exception as e:
+                logger.warning(f"Failed to read cached keywords for {company} run {runIndex}: {e}")
+
+        # --------------------
+        # Rule-based extraction (共起ネットワーク)
+        # --------------------
+        # Collect strings with basic weighting across all runs:
+        # - テーマタイトル（特に上位）を強めに
+        # - テーマ内テキスト
+        # - 提案全体の戦略サマリー
+        weighted_texts: List[Tuple[str, float]] = []
+
+        for idx_run, run in enumerate(runs):
+            themes = run.get("提案テーマ一覧")
+            if isinstance(themes, list):
+                for idx_theme, theme in enumerate(themes):
+                    if not isinstance(theme, dict):
+                        continue
+                    rank = theme.get("順位")
+                    base_weight = 2.0 if rank == 1 or idx_theme == 0 else 1.2
+                    title_val = theme.get("タイトル")
+                    if isinstance(title_val, str) and title_val.strip():
+                        # タイトル全文をフレーズとして強めの重みで直接スコアに乗せる
+                        phrase = title_val.strip()
+                        weighted_texts.append((phrase, base_weight * 3.0))
+                    for key in ("課題仮説",):
+                        val = theme.get(key)
+                        if isinstance(val, str) and val.strip():
+                            weighted_texts.append((val, base_weight))
+
+            summary = run.get("提案全体の戦略サマリー")
+            if isinstance(summary, dict):
+                for _, v in summary.items():
+                    if isinstance(v, str) and v.strip():
+                        weighted_texts.append((v, 1.5))
+
+            # Fallback: collect all strings in run with base weight 1.0
+            for s, _path in _extract_strings(run):
+                # Avoid double-counting strings we already added with higher weights
+                if any(s == wt for wt, _w in weighted_texts):
+                    continue
+                weighted_texts.append((s, 1.0))
+
+        if not weighted_texts:
+            raise HTTPException(status_code=400, detail="提案JSONからテキストを抽出できませんでした")
+
+        # Token frequency with weights
+        term_scores: Dict[str, float] = {}
+        term_counts: Dict[str, int] = {}
+        for text, w in weighted_texts:
+            tokens = _tokenize_japanese(text)
+            for tok in tokens:
+                term_counts[tok] = term_counts.get(tok, 0) + 1
+                term_scores[tok] = term_scores.get(tok, 0.0) + w
+
+        if not term_scores:
+            raise HTTPException(status_code=400, detail="有効なキーワードを抽出できませんでした")
+
+        # Select top keywords
+        sorted_terms = sorted(term_scores.items(), key=lambda x: x[1], reverse=True)
+        top_terms = [t for t, _ in sorted_terms[:top]]
+
+        # Build co-occurrence edges within sentences/lines
+        cooccur: Dict[Tuple[str, str], int] = {}
+        # Build a combined text for sentence-level processing
+        combined_text = "\n".join(t for t, _ in weighted_texts)
+        # 文分割：句点・感嘆符・疑問符・セミコロン・コロン・改行などで区切る
+        sentences = re.split(r"[。．\.！!？\?；;：:\n]+", combined_text)
+        for sent in sentences:
+            tokens = _tokenize_japanese(sent)
+            # Limit to top terms for edges
+            toks_in_top = sorted(set(t for t in tokens if t in top_terms))
+            if len(toks_in_top) < 2:
+                continue
+            for a, b in itertools.combinations(toks_in_top, 2):
+                key = (a, b)
+                cooccur[key] = cooccur.get(key, 0) + 1
+
+        edges: List[Dict[str, Any]] = []
+        for (a, b), c in cooccur.items():
+            # 共起回数1回のみの弱い関係はノイズになりやすいので除外
+            if c < 2:
+                continue
+            ca = term_counts.get(a, 1)
+            cb = term_counts.get(b, 1)
+            weight = c / float(max(ca, cb))
+            edges.append({"source": a, "target": b, "weight": round(weight, 3)})
+
+        # Keep strongest edges first
+        edges.sort(key=lambda e: e["weight"], reverse=True)
+        # Hard cap edges to avoid huge graphs
+        edges = edges[: top * 4]
+
+        # Prepare keyword list (top terms)
+        keywords_base = [
+            {"term": term, "score": float(score), "count": int(term_counts.get(term, 0))}
+            for term, score in sorted_terms[:top]
+        ]
+
+        # Build graph for layout
+        G = nx.Graph()
+        for kw in keywords_base:
+            G.add_node(kw["term"], score=kw["score"], count=kw["count"])
+        for e in edges:
+            if e["source"] in G.nodes and e["target"] in G.nodes:
+                G.add_edge(e["source"], e["target"], weight=e["weight"])
+
+        if G.number_of_nodes() == 1:
+            pos = {next(iter(G.nodes())): (0.5, 0.5)}
+        elif G.number_of_nodes() > 1:
+            # spring_layout でクラスタが分かれるレイアウトにする
+            pos = nx.spring_layout(G, k=0.6, iterations=80, seed=42)
+        else:
+            pos = {}
+
+        xs = [p[0] for p in pos.values()] or [0.5]
+        ys = [p[1] for p in pos.values()] or [0.5]
+        min_x, max_x = min(xs), max(xs)
+        min_y, max_y = min(ys), max(ys)
+
+        def _norm(v: float, vmin: float, vmax: float) -> float:
+            if vmax - vmin < 1e-6:
+                return 0.5
+            return (v - vmin) / (vmax - vmin)
+
+        keywords: List[Dict[str, Any]] = []
+        for kw in keywords_base:
+            x_raw, y_raw = pos.get(kw["term"], (0.5, 0.5))
+            keywords.append(
+                {
+                    "term": kw["term"],
+                    "score": round(kw["score"], 3),
+                    "count": kw["count"],
+                    "x": round(_norm(x_raw, min_x, max_x), 3),
+                    "y": round(_norm(y_raw, min_y, max_y), 3),
+                }
+            )
+
+        result_rule = {
+            "keywords": keywords,
+            "edges": edges,
+            "meta": {
+                # 全ラン combined のため runIndex は -1 をセット
+                "runIndex": -1,
+                "totalTerms": len(term_scores),
+                "totalRuns": total_runs,
+                "source": "rule",
+                "layout": "spring",
+            },
+        }
+
+        # Cache rule-based result as well (e.g. when KEY3 is disabled)
+        try:
+            with open(cache_path, "w", encoding="utf-8") as f:
+                json.dump(result_rule, f, ensure_ascii=False)
+        except Exception as e:
+            logger.warning(f"Failed to cache rule-based keywords for {company} run {runIndex}: {e}")
+
+        return result_rule
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Unexpected error in get_proposal_keywords for {company}: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"キーワード分析中にエラーが発生しました: {str(e)}")
+
+
+@app.post("/api/proposal/{company}/keywords/refresh")
+def refresh_proposal_keywords(company: str, runIndex: int = 0, top: int = 30) -> Dict[str, Any]:
+    """
+    Force refresh of proposal keywords by clearing cache and recomputing (rule-based).
+    """
+    try:
+        dir_path = company_dir(company)
+        if not os.path.isdir(dir_path):
+            raise HTTPException(status_code=404, detail=f"Company '{company}' not found")
+
+        # キャッシュは全ラン combined 単位
+        cache_path = os.path.join(dir_path, f"{company}_proposal_keywords_all.json")
+        try:
+            if os.path.exists(cache_path):
+                os.remove(cache_path)
+        except Exception as e:
+            logger.warning(f"Failed to remove keyword cache for {company} run {runIndex}: {e}")
+
+        # 再計算は既存のロジックを利用（runIndex は無視される）
+        return get_proposal_keywords(company, runIndex=runIndex, top=top)
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Unexpected error in refresh_proposal_keywords for {company}: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"キーワード再解析中にエラーが発生しました: {str(e)}")
 
 
 # ----------------------

@@ -7,6 +7,11 @@ import Markdown from '../../../../components/Markdown';
 import ProposalRunTabs, { ProposalViewMode } from '../../../../components/ProposalRunTabs';
 import ProposalComparisonTable from '../../../../components/ProposalComparisonTable';
 import ProposalJsonDebugPanel from '../../../../components/ProposalJsonDebugPanel';
+import ProposalKeywordGraph, {
+  type ProposalKeyword,
+  type ProposalEdge,
+} from '../../../../components/ProposalKeywordGraph';
+import ProposalKeywordTable from '../../../../components/ProposalKeywordTable';
 
 type ProposalResponse = {
   proposal: string;
@@ -57,6 +62,16 @@ type ParsedProposalResult = {
   runs: ParsedProposalRun[];
   blocks: string[];
   parseErrors: string[];
+};
+
+type ProposalKeywordResponse = {
+  keywords: ProposalKeyword[];
+  edges: ProposalEdge[];
+  meta: {
+    runIndex: number;
+    totalTerms: number;
+    source?: string;
+  };
 };
 
 function safeJsonParse(text: string): any | null {
@@ -168,8 +183,15 @@ export default function ProposalClient({ company }: { company: string }) {
   const [retryCount, setRetryCount] = useState(0);
   const [activeRunIndex, setActiveRunIndex] = useState(0);
   const [viewMode, setViewMode] = useState<ProposalViewMode>('single');
+  const [keywordData, setKeywordData] = useState<ProposalKeywordResponse | null>(null);
+  const [keywordLoading, setKeywordLoading] = useState(false);
+  const [keywordError, setKeywordError] = useState<string | null>(null);
+  const [selectedTerm, setSelectedTerm] = useState<string | null>(null);
 
   const fetchProposal = useCallback(async (isRetry = false, signal?: AbortSignal) => {
+    // フラグで長時間POSTとキャッシュ取得POSTの二重発火を防ぐ
+    let longPostStarted = false;
+    let cacheFetchDone = false;
     let progressInterval: NodeJS.Timeout | null = null;
     let postAbortController: AbortController | null = null;
     let proposalCompleted = false;
@@ -195,35 +217,40 @@ export default function ProposalClient({ company }: { company: string }) {
             if (progressRes.current > 0) {
               setProgress({ current: progressRes.current, total: progressRes.total });
             }
-            // Check if proposal is completed (progress file doesn't exist or status is completed)
-            // If progress file doesn't exist, it means the proposal creation is done
-            if (progressRes.status === 'idle' || progressRes.status === 'completed' || 
-                (progressRes.current === progressRes.total && progressRes.total > 0)) {
+            // 提案作成が完了したと判断できる状態になったら、
+            // 1回だけキャッシュ取得用の短時間POSTを試みる
+            if (
+              progressRes.status === 'completed' ||
+              progressRes.status === 'idle' ||
+              (progressRes.current === progressRes.total && progressRes.total > 0)
+            ) {
               // Wait a bit more to ensure backend has finished writing the file
-              await new Promise(resolve => setTimeout(resolve, 1000));
-              // Check if proposal file exists now
-              try {
-                const proposalRes = await apiPost<ProposalResponse>(
-                  `/api/proposal/${encodeURIComponent(company)}`,
-                  {},
-                  { timeout: 10000 } // Short timeout for cached proposal
-                );
-                if (!signal?.aborted && proposalRes.proposal) {
-                  setProposal(proposalRes.proposal);
-                  setProgress(null);
-                  setRetryCount(0);
-                  setLoading(false);
-                  proposalCompleted = true;
-                  if (postAbortController) {
-                    postAbortController.abort();
+              await new Promise((resolve) => setTimeout(resolve, 1000));
+              if (!cacheFetchDone) {
+                try {
+                  const proposalRes = await apiPost<ProposalResponse>(
+                    `/api/proposal/${encodeURIComponent(company)}`,
+                    {},
+                    { timeout: 10000 } // Short timeout for cached proposal
+                  );
+                  if (!signal?.aborted && proposalRes.proposal) {
+                    setProposal(proposalRes.proposal);
+                    setProgress(null);
+                    setRetryCount(0);
+                    setLoading(false);
+                    proposalCompleted = true;
+                    cacheFetchDone = true;
+                    if (postAbortController) {
+                      postAbortController.abort();
+                    }
+                    if (progressInterval) {
+                      clearInterval(progressInterval);
+                    }
                   }
-                  if (progressInterval) {
-                    clearInterval(progressInterval);
-                  }
+                } catch (e) {
+                  // If proposal file doesn't exist yet, continue waiting
+                  console.debug('Proposal not ready yet, continuing to wait...', e);
                 }
-              } catch (e) {
-                // If proposal file doesn't exist yet, continue waiting
-                console.debug('Proposal not ready yet, continuing to wait...');
               }
             }
           }
@@ -235,22 +262,28 @@ export default function ProposalClient({ company }: { company: string }) {
       // Start the POST request (this may take a long time)
       postAbortController = new AbortController();
       try {
-        const res = await apiPost<ProposalResponse>(
-          `/api/proposal/${encodeURIComponent(company)}`,
-          {},
-          { timeout: 1200000, signal: postAbortController.signal } // 20 minutes timeout
-        );
-        if (!signal?.aborted && !proposalCompleted) {
-          setProposal(res.proposal);
-          setProgress(null);
-          setRetryCount(0);
+        if (!longPostStarted) {
+          longPostStarted = true;
+          const res = await apiPost<ProposalResponse>(
+            `/api/proposal/${encodeURIComponent(company)}`,
+            {},
+            { timeout: 1200000, signal: postAbortController.signal } // 20 minutes timeout
+          );
+          if (!signal?.aborted && !proposalCompleted && res.proposal) {
+            setProposal(res.proposal);
+            setProgress(null);
+            setRetryCount(0);
+          }
         }
-      } catch (e) {
+      } catch (e: any) {
         // If aborted by progress polling, don't show error
         if (!signal?.aborted && !proposalCompleted) {
+          const status = (e as any)?.status ?? (e as any)?.response?.status;
           const errorMessage = e instanceof Error ? e.message : '提案の作成に失敗しました';
-          // Don't show timeout error if proposal was completed via progress polling
-          if (!errorMessage.includes('タイムアウト') || !proposalCompleted) {
+          // 409 は「既存ジョブ実行中」とみなしてエラー表示しない
+          if (status === 409) {
+            console.debug('Proposal already running, waiting for existing job to complete...');
+          } else if (!errorMessage.includes('タイムアウト') || !proposalCompleted) {
             console.error('Proposal creation error:', e);
             setError(errorMessage);
             setProgress(null);
@@ -291,6 +324,57 @@ export default function ProposalClient({ company }: { company: string }) {
   const parsed = useMemo(() => parseProposalRuns(proposal), [proposal]);
   const hasJsonRuns = parsed.runs.length > 0;
   const hasParseErrors = parsed.parseErrors.length > 0;
+  // 全提案回（1〜N回）をまとめたネットワークを常に表示する
+  const hasKeywordNetwork = hasJsonRuns;
+
+  const handleRefreshKeywords = useCallback(async () => {
+    if (!hasKeywordNetwork) return;
+    try {
+      setKeywordLoading(true);
+      setKeywordError(null);
+      const res = await apiPost<ProposalKeywordResponse>(`/api/proposal/${encodeURIComponent(company)}/keywords/refresh?top=30`, {});
+      setKeywordData(res);
+    } catch (e) {
+      console.error('Keyword network refresh error:', e);
+      setKeywordError('キーワードネットワークの再解析に失敗しました');
+    } finally {
+      setKeywordLoading(false);
+    }
+  }, [company, hasKeywordNetwork]);
+
+  // キーワードネットワークの取得（JSONモード single ビュー時）
+  useEffect(() => {
+    if (!hasKeywordNetwork) {
+      setKeywordData(null);
+      setKeywordError(null);
+      setSelectedTerm(null);
+      return;
+    }
+    let cancelled = false;
+    async function fetchKeywords() {
+      try {
+        setKeywordLoading(true);
+        setKeywordError(null);
+        const res = await apiGet<ProposalKeywordResponse>(`/api/proposal/${encodeURIComponent(company)}/keywords?top=30`);
+        if (!cancelled) {
+          setKeywordData(res);
+        }
+      } catch (e) {
+        if (!cancelled) {
+          console.error('Keyword network fetch error:', e);
+          setKeywordError('キーワードネットワークの取得に失敗しました');
+        }
+      } finally {
+        if (!cancelled) {
+          setKeywordLoading(false);
+        }
+      }
+    }
+    fetchKeywords();
+    return () => {
+      cancelled = true;
+    };
+  }, [company, hasKeywordNetwork]);
 
   // 実行回数が変わった場合にインデックスを補正
   useEffect(() => {
@@ -317,6 +401,57 @@ export default function ProposalClient({ company }: { company: string }) {
           形式: {hasJsonRuns ? 'JSON（比較ビュー）' : 'Markdown（旧形式）'}
         </span>
       </div>
+
+      {/* キーワードネットワーク（JSONモード・singleビュー時のみ） */}
+      {hasKeywordNetwork && (
+        <div style={{ marginBottom: 16 }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: 8,
+              marginBottom: 8,
+              flexWrap: 'wrap',
+            }}
+          >
+            <div className="muted" style={{ fontSize: 12 }}>
+              キーフレーズ抽出: ルールベース共起ネットワーク（除外語適用）
+            </div>
+            <button
+              type="button"
+              className="btn btn-ghost"
+              onClick={handleRefreshKeywords}
+              disabled={keywordLoading}
+            >
+              {keywordLoading ? '再解析中…' : 'キーワードを再解析'}
+            </button>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <ProposalKeywordGraph
+              keywords={keywordData?.keywords ?? []}
+              edges={keywordData?.edges ?? []}
+              selectedTerm={selectedTerm}
+              onSelectTerm={setSelectedTerm}
+            />
+            <ProposalKeywordTable
+              keywords={keywordData?.keywords ?? []}
+              selectedTerm={selectedTerm}
+              onSelectTerm={setSelectedTerm}
+            />
+          </div>
+          {keywordLoading && (
+            <p className="muted" style={{ fontSize: 12, marginTop: 4 }}>
+              キーワードネットワークを解析中です…（数秒かかる場合があります）
+            </p>
+          )}
+          {keywordError && (
+            <div className="alert" style={{ marginTop: 4 }}>
+              {keywordError}
+            </div>
+          )}
+        </div>
+      )}
 
       {loading && (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: '40px 0' }}>

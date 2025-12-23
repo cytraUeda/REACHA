@@ -4,3 +4,7 @@ pydantic>=2.5.0
 requests>=2.31.0
 python-dotenv>=1.0.0
 
+# 日本語形態素解析（キーワード抽出用）
+sudachipy>=0.6.8
+sudachidict_core>=20230927
+
