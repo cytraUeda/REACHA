@@ -1,0 +1,39 @@
+カテゴリー,事例名,AIがしていること（具体例）,適用業務・シーン,期待効果,URL,出典・備考
+開発,コード生成・レビュー（パナソニック）,自然言語からコードを生成し、既存コードを分析してバグを検出・修正提案、テストケースを自動生成,モーター設計、ソフトウェア開発全般,モーター設計で出力15%向上、開発時間50%削減,https://xtech.nikkei.com/atcl/nxt/news/24/01061/,パナソニック：大規模AI導入事例
+開発,コード生成（DeNA）,操作画面の録画動画をAIに読み込ませてGAS（Google Apps Script）のコードを生成,業務自動化、GAS開発,テキスト入力なしでコード生成、開発効率向上,https://internet.watch.impress.co.jp/docs/yajiuma/2074241.html,DeNA AI活用100本ノック096本目
+開発,コード生成（DeNA詳細）,操作画面の録画動画をGeminiに読み込ませることで、テキスト入力なしでGASのコードを生成,業務自動化、GAS開発,マルチモーダル活用による効率的なコード生成,https://jacky-webworks.com/ai/dena-ai-100-tips/,DeNA AI活用100本ノック096本目詳細
+開発,バグ検出・修正提案（一般的）,既存コードを分析してバグを検出・修正提案、セキュリティリスクやパフォーマンス問題を指摘,ソフトウェア開発、コードレビュー,バグ検出率30%向上、コードレビュー時間60%削減,社内資料：docks/reports/technical_verification/01_copilot_feature_verification.md,Microsoft Copilot機能検証
+分析,Excelデータ分析・可視化（Ma'aden）,Excelデータを分析し、トレンド・パターンを自動抽出、グラフ・ダッシュボードを自動生成,データ分析、意思決定支援,Excelの洞察抽出、分析時間40%削減,https://www.microsoft.com/en/customers/story/21514-maaden-microsoft-365-copilot,Ma'aden：Microsoft 365 Copilot導入事例
+分析,トレンド分析・クロスマーチャンダイジング,自社販売データと外部トレンドを統合分析、商品Aと商品Bの相関性を分析,売上分析、トレンド分析、クロスマーチャンダイジング提案,洞察発見速度3倍向上、意思決定速度2倍向上,https://exawizards.com/column/article/ai/ai-cases-of-manufacturing/,製造業AI活用事例集
+分析,業務時間削減（フジパン）,売上データから季節性を抽出、市場トレンドと比較分析,売上分析、業務効率化,月間295人日の業務時間削減,https://exawizards.com/column/article/ai/ai-cases-of-manufacturing/,フジパン：製造業AI活用事例
+分析,製氷事業計画自動化（ニチレイ・アイス）,AIによる製氷事業の計画自動化,業務プロセス自動化,業務時間を約70%削減,https://exawizards.com/column/article/ai/ai-cases-of-manufacturing/,ニチレイ・アイス：製造業AI活用事例
+企画,商品企画アイデア生成（一般的）,30代女性向けのキッチン用品の新商品アイデアを10個提案、過去の成功事例を参照,商品企画会議、事業企画,アイデア創出時間50%削減、企画書作成時間30%削減,https://biz.techvan.co.jp/tech-microsoft/blog/contents/microsoft_365_copilot_case.html,Microsoft Copilot活用事例
+企画,マーケティング戦略立案（JCB）,部門別ユースケースの明確化：営業→提案書作成、経理→報告メール、人事→募集要項,営業、経理、人事部門,1人あたり月平均6時間の業務削減、年間数億円のコスト削減,https://www.microsoft.com/ja-jp/customers/story/23634-jcb-co-ltd-microsoft-365-copilot,JCB：利用率83%達成の金融業界事例
+企画,文書作成支援（住友商事）,Word/PowerPointでの文書作成支援、Teams会議でのリアルタイム翻訳・要約,全社的な文書作成、会議支援,月間アクティブユーザー率70%、業務時間削減10,560時間/月,https://www.microsoft.com/ja-jp/customers/story/1799870297941010991-sumitomo-corporation-azure-ai-studio-professional-services-ja-japan,住友商事：大規模Copilot展開事例
+企画,文書作成支援（住友商事詳細）,Word/PowerPointでの文書作成支援、Outlookメール作成支援,全社的な文書作成、メール作成,契約書チェック時間を3分の1に短縮、年間12億円のコスト削減見込み,https://engagesq.com/ja/our-work/case-studies/sc-copilot-jp/,住友商事：詳細事例
+資料,仕様書・設計書作成（Microsoft Research）,仕様書・設計書のドラフトを生成、既存文書を要約・整理,文書作成全般,主要編集者としての文書完了が平均0.5日早い、定常利用者ではほぼ1日早い,https://www.microsoft.com/en-us/research/publication/early-impacts-of-m365-copilot/,Microsoft Research：大規模ランダム化実験（6,000人超・56社）
+資料,仕様書・設計書作成（arXiv版）,仕様書・設計書のドラフトを生成、既存文書を要約・整理,文書作成全般,主要編集者としての文書完了が平均0.5日早い、定常利用者ではほぼ1日早い,https://ar5iv.labs.arxiv.org/html/2504.11443,Microsoft Research：arXiv版
+資料,文書ドラフト作成（英国政府）,文書ドラフト作成、要約・整理,文書作成全般,1日あたり24分の時間削減,https://www.gov.uk/government/publications/microsoft-365-copilot-experiment-cross-government-findings-report/microsoft-365-copilot-experiment-cross-government-findings-report-html,英国政府：Cross-Government Findings Report
+資料,Word→PowerPoint変換（Prague Airport）,Word→PowerPoint生成、プレゼン資料作成,プレゼン資料作成,週あたり最大2時間の削減,https://www.microsoft.com/en/customers/story/24667-prague-airport-microsoft-365-copilot/,Prague Airport：300人超に提供
+資料,プレゼン作成（英国政府）,プレゼンテーション作成支援,プレゼン資料作成,1日あたり19分の時間削減,https://www.gov.uk/government/publications/microsoft-365-copilot-experiment-cross-government-findings-report/microsoft-365-copilot-experiment-cross-government-findings-report-html,英国政府：Cross-Government Findings Report
+資料,大量資料検索（DeNA）,Googleドライブに保存したPDFをAI（Gemini）で開き、「〇〇の条件について書いてある場所はどこ？」と質問,資料検索、法律・ガイドライン理解,資料作成を効率化、参照を高速化,https://internet.watch.impress.co.jp/docs/yajiuma/2074241.html,DeNA AI活用100本ノック001本目
+資料,大量資料検索（DeNA詳細）,NotebookLMを活用してWebサイトの参照を高速化、法律やガイドラインの理解を深める,資料検索、法律・ガイドライン理解,資料作成を効率化,https://jacky-webworks.com/ai/dena-ai-100-tips/,DeNA AI活用100本ノック001本目詳細
+レビュー,設計データ・仕様書レビュー（トヨタ自動車）,AI画像検査でAT部品の目視検査を完全自動化,製造業の品質検査,見逃し率0%、検査の完全自動化,https://exawizards.com/column/article/ai/ai-cases-of-manufacturing/,トヨタ自動車：製造業AI活用事例
+レビュー,契約書・規程レビュー（Vodafone）,法務チームで契約書等の文書要約・レビュー迅速化,法務、契約書レビュー,1人あたり週4時間の時間削減、法務部門の分析として平均で週4時間削減,https://www.microsoft.com/en/customers/story/19346-vodafone-microsoft-365-copilot,Vodafone：試行300人→拡大68,000人
+レビュー,校正・誤字脱字チェック（DeNA）,50枚超のスライドの誤字脱字や固有名詞チェックを数分で完了,資料校正、品質チェック,校正作業を効率化、数分で完了,https://internet.watch.impress.co.jp/docs/yajiuma/2074241.html,DeNA AI活用100本ノック053本目
+レビュー,校正・誤字脱字チェック（DeNA詳細）,GeminiのGem機能を使って、50枚超のスライドの誤字脱字や固有名詞チェックを数分で完了,資料校正、品質チェック,校正支援、数分で完了,https://jacky-webworks.com/ai/dena-ai-100-tips/,DeNA AI活用100本ノック053本目詳細
+全般（翻訳）,多言語翻訳（住友商事）,Teams会議でのリアルタイム翻訳・要約、多言語対応,グローバルチーム、海外展開,月間アクティブユーザー率70%、業務時間削減10,560時間/月,https://www.microsoft.com/ja-jp/customers/story/1799870297941010991-sumitomo-corporation-azure-ai-studio-professional-services-ja-japan,住友商事：大規模Copilot展開事例
+全般（翻訳）,多言語翻訳（住友商事詳細）,Teams会議でのリアルタイム翻訳・要約、Outlookメール作成支援,グローバルチーム、海外展開,契約書チェック時間を3分の1に短縮、年間12億円のコスト削減見込み,https://engagesq.com/ja/our-work/case-studies/sc-copilot-jp/,住友商事：詳細事例
+全般（検索）,SharePoint横断検索（Capita）,SharePoint横断検索のエージェント（AMA）構築、手作業検索を減らす,社内情報検索、規程確認,月あたり9,000時間の削減、アクセシビリティ/インクルージョンへの寄与,https://www.microsoft.com/en/customers/story/24350-capita-microsoft-365-copilot/,Capita：3,000ライセンス展開
+全般（検索）,大量資料検索（DeNA）,Googleドライブに保存したPDFをAI（Gemini）で開き、「〇〇の条件について書いてある場所はどこ？」と質問,資料検索、法律・ガイドライン理解,資料作成を効率化、参照を高速化,https://internet.watch.impress.co.jp/docs/yajiuma/2074241.html,DeNA AI活用100本ノック001本目
+全般（検索）,社内規程・手順検索（Ma'aden）,Copilot Studioでガバナンス文書や権限委譲ポリシー向けのエージェントを開発、Teamsに統合,社内規程検索、ガバナンス文書検索,初期フェーズだけで36,600回超のインタラクション、月あたり最大2,200時間の削減,https://www.microsoft.com/en/customers/story/21514-maaden-microsoft-365-copilot,Ma'aden：Microsoft 365 Copilot導入事例
+全般（検索）,社内規程・手順検索（Prague Airport）,部門特化のAIエージェント（SharePointのAI agent等）を作り、手順書・規程をチャットで引ける形に,社内規程検索、手順書検索,週あたり最大2時間の削減,https://www.microsoft.com/en/customers/story/24667-prague-airport-microsoft-365-copilot/,Prague Airport：300人超に提供
+その他,会議議事録作成（DeNA）,Google Meetの議事録を再要約し、Slackへの共有までをGASで自動化,会議議事録作成、情報共有,議事録作成の工数を削減、自動化,https://internet.watch.impress.co.jp/docs/yajiuma/2074241.html,DeNA AI活用100本ノック037本目
+その他,会議議事録作成（DeNA詳細）,Vertex AIとGeminiを活用してGoogle Meetの議事録を再要約し、Slackへの共有までをGASで自動化,会議議事録作成、情報共有,議事録作成の工数を削減、自動化,https://jacky-webworks.com/ai/dena-ai-100-tips/,DeNA AI活用100本ノック037本目詳細
+その他,石油化学プラント自動運転（横河電機）,AIで石油化学プラントを35日間連続自動運転,製造業の自動運転,35日間連続自動運転を実現,https://exawizards.com/column/article/ai/ai-cases-of-manufacturing/,横河電機：製造業AI活用事例
+その他,日立製作所生成AIセンター,社内で生まれた1,000件以上のユースケースを横展開,全社的なAI活用推進,1,000件以上のユースケースを横展開、知見の蓄積と共有による効率化,https://japan.zdnet.com/article/35218511/,日立製作所：生成AIセンター設置事例
+その他,パナソニック大規模AI導入,9万人の従業員向けに社内版ChatGPTを提供,全社的なAI活用推進,年間186,000時間の業務時間削減、モーター設計で出力15%向上,https://xtech.nikkei.com/atcl/nxt/news/24/01061/,パナソニック：大規模AI導入事例
+その他,デンソーMicrosoft 365 Copilot導入,全社的なパイロット導入、従業員全体を対象,全社的なAI活用推進,従業員1人あたり月平均12時間の業務時間削減、PowerPoint資料作成の構成案自動生成が高評価,https://www.microsoft.com/ja-jp/customers/story/19426-denso-corporation-microsoft-365-copilot,デンソー：Microsoft 365 Copilot導入事例
+その他,富士通国内最大級導入,国内グループ約8万人を対象,全社的なAI活用推進,コード自動生成・レビュー機能の活用、提案書・メールドラフト作成の支援,https://taskhub.jp/useful/2024-copilot-introduce-case/,富士通：国内最大級の導入事例
+その他,九電グループ段階的展開,PoC（実証実験）からのスタート：400名→1,800名→全社約1万人,段階的なAI活用展開,最大9.9％の業務時間削減、全組織に1名以上の利用者、「Copilotチャレンジカップ」で83件の応募,社内資料：docks/reports/research/02_secretariat_resource_research_2.md,九電グループ：段階的展開で浸透率向上
+
